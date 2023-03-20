@@ -36,3 +36,4 @@ class UserFactory extends Factory
         ]);
     }
 }
+// $path = $animal_image->storeAs('public/images', $filename)

@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reviews', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->tinyInteger('stars');
-            $table->string('body');
+        Schema::create('volunteers', function (Blueprint $table) {
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->bigInteger('age');
+            $table->string('phoneNo');
+            //One to Many
+            $table->enum('Availability', ['Saturday 9-3', 'Saturday 3-6', 'Sunday 9-3', 'Sunday 3-6'] );
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('volunteers');
     }
 };

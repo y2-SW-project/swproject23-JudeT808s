@@ -13,11 +13,18 @@ return new class extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table->image('image');
             $table->string('title');
             $table->string('subtitle');
             $table->date('publish_date');
+           // $table->unsignedBigInteger('image_id')->nullable();
+            $table->foreignId('admin_id')->constrained('admins');
             $table->timestamps();
+            // $table->foreign('image_id')->references('id')->on('images')->onDelete('set null');
+
+        });
+        Schema::table('images', function (Blueprint $table) {
+            $table->unsignedBigInteger('article_id')->nullable();
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
         });
     }
 
