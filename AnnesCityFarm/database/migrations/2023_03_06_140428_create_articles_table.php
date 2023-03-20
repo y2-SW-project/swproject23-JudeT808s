@@ -19,6 +19,7 @@ return new class extends Migration
            // $table->unsignedBigInteger('image_id')->nullable();
             $table->foreignId('admin_id')->constrained('admins');
             $table->timestamps();
+            $table->string('image');
             // $table->foreign('image_id')->references('id')->on('images')->onDelete('set null');
 
         });

@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Images extends Model
+class Image extends Model
 {
     use HasFactory;
-    
-    // public function imageable()
-    // {
-    //     return $this->morphTo();
-    // }
+
+    public function imageable()
+    {
+        return $this->morphTo();
+    }
     public function article()
     {
         return $this->belongsTo(Article::class);
