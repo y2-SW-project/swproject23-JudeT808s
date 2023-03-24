@@ -28,4 +28,4 @@ class ArticleFactory extends Factory
         ];
     }
 }
-$article = Article::factory()->hasImages(1)->create();
+// $article = Article::factory()->hasImages(1)->create();

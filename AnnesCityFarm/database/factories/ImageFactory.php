@@ -30,16 +30,24 @@ class ImageFactory extends Factory
             'filename' =>  $this->faker->imageUrl(640, 480, 'animals', true),
             'type' => $this->faker->name,
             'path' => $this->faker->name,
-            'imageable_id' => $imageable::factory(),
-            'imageable_type' =>  $imageable,
+            // 'imageable_id' => $imageable::factory(),
+            // 'imageable_type' =>  $imageable,
         ];
     }
+    public function configure()
+    {
+        return $this->for(
+            static::factoryForModel($this->imageable()),
+            'imageable',
+        );
+    }
+
     public function imageable()
     {
-        $images = Image::factory()->count(1)->for(
-            Article::factory(),
-            'imageable'
-        )->create();
+        // $images = Image::factory()->count(1)->for(
+        //     Article::factory(),
+        //     'imageable'
+        // )->create();
 
         return $this->faker->randomElement([
             Article::class,

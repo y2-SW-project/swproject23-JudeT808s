@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Models\Admin;
 use App\Models\Article;
 use App\Models\User;
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     // $user = User::create([
     //     'name' => 'Heffo',
-    //     'email' => 'Heffo@example.com',
+    //     'email' => 'predator@example.com',
     //     'password' => Hash::make('password'),
     //     'email_verified_at' => now(),
     // ]);
@@ -54,13 +55,9 @@ Route::get('/', function () {
 // });
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
+Route::get('/', function () {
+    return view('welcome', [\App\Http\Controllers\ArticleController::class, 'articles' => Article::all()]);
+});
+//Route::resource('/', ArticleController::class);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
