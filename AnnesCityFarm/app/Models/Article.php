@@ -9,12 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-
+    protected $guarded = [];
     use HasFactory;
-    public function image()
-    {
-        return $this->belongsTo(Image::class);
-    }
+    // public function image()
+    // {
+    //     return $this->belongsTo(Image::class);
+    // }
 
     public function images()
     {

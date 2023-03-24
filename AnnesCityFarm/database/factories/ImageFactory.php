@@ -15,7 +15,7 @@ class ImageFactory extends Factory
 {
 
     protected $model = Image::class;
-   
+
     /**
      * Define the model's default state.
      * 
@@ -25,22 +25,22 @@ class ImageFactory extends Factory
      */
     public function definition(): array
     {
-        $images = $this->images();
+        $imageable = $this->imageable();
         return [
             'filename' =>  $this->faker->imageUrl(640, 480, 'animals', true),
             'type' => $this->faker->name,
             'path' => $this->faker->name,
-            'imageable_id' => $images::factory(),
-            'imageable_type' =>  $images,
+            'imageable_id' => $imageable::factory(),
+            'imageable_type' =>  $imageable,
         ];
     }
-    public function images()
+    public function imageable()
     {
-        $image = Image::factory()->count(3)->for(
+        $images = Image::factory()->count(1)->for(
             Article::factory(),
-            'images'
+            'imageable'
         )->create();
-        
+
         return $this->faker->randomElement([
             Article::class,
             // Animal::class,

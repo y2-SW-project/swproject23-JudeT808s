@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id');
             $table->string('filename');
             //Detects file format
             $table->string('type');
             $table->string('path');
-            $table->unsignedBigInteger('imageable_id');
+            $table->morphs('imageable');
+            //$table->unsignedBigInteger('imageable_id');
             //This will determine whether is for article or animal
-            $table->string('imageable_type');
+            // $table->string('imageable_type');
             $table->timestamps();
-            $table->index(['imageable_id', 'imageable_type']);
+            // $table->index(['imageable_id', 'imageable_type']);
         });
     }
 
