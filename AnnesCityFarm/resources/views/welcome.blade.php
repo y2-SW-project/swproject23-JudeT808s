@@ -4,6 +4,10 @@
     <div class="container mx-5">
         <div class="row justify-content-center">
             <div>
+                {{ dd($articles) }}
+                @foreach ($articles as $article)
+                    {{ $article }}
+                @endforeach
                 <h1>Hello World</h1>
                 <h3>This is a laravel-bootstrap template</h3>
                 <div class="mt-5">
@@ -25,9 +29,8 @@
                             <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-social.png"
                                 class="card-img-top" alt="...">
                             <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in
-                                    to additional content. This content is a little bit longer.</p>
+                                <h5 class="card-title">{{ $article->title }}</h5>
+                                <p class="card-text">{{ $article->subtitle }}</p>
                             </div>
                         </div>
                     </div>
@@ -59,7 +62,8 @@
                                 class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-dsdsdsin
+                                <p class="card-text">This is a longer card with supporting text below as a natural
+                                    lead-dsdsdsin
                                     to additional content. This content is a little bit longer.</p>
                             </div>
                         </div>

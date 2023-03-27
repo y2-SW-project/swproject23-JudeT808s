@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Article;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,10 +24,8 @@ class ArticleFactory extends Factory
             'subtitle' => $this->faker->name,
             'publish_date' => $this->faker->date,
             'admin_id' => '1',
+            // 'images' => $this->faker->image('storage/app/public/images', 400, 300, null, false)
             'image' =>  $this->faker->imageUrl(640, 480, 'animals', true),
-            // $this->$article->imageable()->create($this->faker->imageUrl(640, 480, 'animals', true))
-
-
         ];
     }
 }
