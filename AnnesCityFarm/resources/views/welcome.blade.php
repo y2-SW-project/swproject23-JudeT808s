@@ -22,18 +22,16 @@
                     <button type="button" class="btn btn-info">Info</button>
                     <button type="button" class="btn btn-light">Light</button>
                     <button type="button" class="btn btn-dark">Dark</button>
-
                     <button type="button" class="btn btn-link">Link</button>
                 </div>
 
                 <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
                     <div class="col">
                         <div class="card">
-                            <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-social.png"
-                                class="card-img-top" alt="...">
+                            <img src="{{ $articles[6]->images->first->path }}" class="card-img-top" alt="...">
                             <div class="card-body">
-                                <h5 class="card-title">{{ $article->title }}</h5>
-                                <p class="card-text">{{ $article->subtitle }}</p>
+                                <h5 class="card-title">{{ $articles[6]->title }}</h5>
+                                <p class="card-text">{{ $articles[6]->subtitle }}</p>
                             </div>
                         </div>
                     </div>
