@@ -22,7 +22,6 @@ return new class extends Migration
             $table->foreignId('admin_id')->constrained('admins');
             $table->timestamps();
 
-            //  $table->foreign('image_id')->references('id')->on('images')->onDelete('set null');
         });
         Schema::table('images', function (Blueprint $table) {
             $table->unsignedBigInteger('animal_id')->nullable();

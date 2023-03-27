@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,18 +11,28 @@ class ArticleController extends Controller
 {
     public function index()
     {
-        // $user = Auth::user();
-        // $user->authorizeRoles('admin');
 
-        //$books = Book::all();
-        // $books = Book::paginate(10);
-        // $books = Book::with('publisher')->get();
-        // $articles = Article::with('article')
-        //     ->get();
+        //This is how it looks
+        // $images = $article->images->first()->filename;
+
+        // $articles = Article::with('images')->get();
+        // //Retro without eager loading
+        // // $articles = Article::with('article')->pluck('images')->collapse();
+        // return view('articles')->with('articles', $articles);
         $articles = Article::with('images')->get();
-        //Retro without eager loading
-        // $articles = Article::with('article')->pluck('images')->collapse();
-        return view('articles')->with('articles', $articles);
+        $articles_by_filename = [];
+
+        foreach ($articles as $article) {
+            foreach ($article->images as $image) {
+                $filename = $image->filename;
+                $articles_by_filename[$filename][] = $article;
+            }
+        }
+
+        return view('articles')->with([
+            'articles' => $articles,
+            'articles_by_filename' => $articles_by_filename,
+        ]);
     }
 
     public function store(Request $request)

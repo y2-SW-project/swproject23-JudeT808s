@@ -15,7 +15,10 @@ class Article extends Model
     // {
     //     return $this->belongsTo(Image::class);
     // }
-
+    public function getImage()
+    {
+        return $this->image->images->filename;
+    }
     public function images()
     {
         return $this->morphMany(Image::class, 'imageable');

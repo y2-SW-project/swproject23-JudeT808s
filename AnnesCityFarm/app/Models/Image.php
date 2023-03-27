@@ -14,10 +14,10 @@ class Image extends Model
     {
         return $this->morphTo();
     }
-    public function getPropertiesAttribute()
-{
-    return explode(',', $this->filename); 
-}
+    //     public function getPropertiesAttribute()
+    // {
+    //     return explode(',', $this->filename); 
+    // }
     // public function article()
     // {
     //     return $this->belongsTo(Article::class);

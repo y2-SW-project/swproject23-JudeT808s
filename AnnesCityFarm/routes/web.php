@@ -1,12 +1,14 @@
 <?php
 
-use App\Http\Controllers\ArticleController;
-use App\Models\Admin;
-use App\Models\Article;
 use App\Models\User;
+use App\Models\Admin;
+use Faker\Factory as Faker;
+use App\Models\Article;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ArticleController;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,45 +21,64 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    // $user = User::create([
-    //     'name' => 'Heffo',
-    //     'email' => 'predator@example.com',
-    //     'password' => Hash::make('password'),
-    //     'email_verified_at' => now(),
-    // ]);
+Route::get('/hi', function () {
+    //     $faker = Faker::create();
+    //     $imageable = $faker->randomElement([
+    //         Article::class,
+    //     ]);
+    //     // $user = User::create([
+    //     //     'name' => 'Heffo',
+    //     //     'email' => 'predator@example.com',
+    //     //     'password' => Hash::make('password'),
+    //     //     'email_verified_at' => now(),
+    //     // ]);
 
-    // $article = Article::create([
-    //     'title' => 'Joel',
-    //     'subtitle' => 'Time',
-    //     'publish_date' => '2013/6/23.',
-    //     'user_id' => '1',
-    // ]);
-    // $article->images()->create([
-    //     'user_id' => $user->id,
-    //     'filename' => 'asdasd',
-    //     'type' => 'example',
-    //     'path' => 'example',
-    // ]);
-    // $article = Article::find(1);
+    //     $article = Article::create([
+    //         'title' => 'Joel',
+    //         'subtitle' => 'Time',
+    //         'publish_date' => '2013/6/23.',
+    //         'admin_id' => '1',
+    //     ]);
+    //     $article->images()->create([
+    //         'filename' => 'asdasd',
+    //         'type' => 'example',
+    //         'path' => 'example',
+    //     ]);
+    //     $article = Article::find(1);
 
-    // $article->images()->create([
-    //     'user_id' => 1,
-    //     'filename' => 'asdasd',
-    //     'type' => 'example',
-    //     'path' => 'example',
-    // ]);
-    // dd($article->images);
-    return view('welcome');
+    //     $article->images()->create([
+    //         'filename' => 'asdasd',
+    //         'type' => 'example',
+    //         'path' => 'example',
+    //         'imageable_id' => $imageable::factory(),
+    //         'imageable_type' =>  array_search($imageable, Relation::$morphMap),
+    //     ]);
+
+    //     dd($article->images->first()->filename);
+    //     return view('welcome');
 });
-// Route::get('/main', function () {
-//     return view('main');
-// });
+Route::get('/main', function () {
+    return view('main');
+});
 
 Auth::routes();
 Route::get('/', function () {
-    return view('welcome', [\App\Http\Controllers\ArticleController::class, 'articles' => Article::all()]);
+    $articles = Article::with('images')->get();
+    $articles_by_filename = [];
+
+    foreach ($articles as $article) {
+        foreach ($article->images as $image) {
+            $filename = $image->filename;
+            $articles_by_filename[$filename][] = $article;
+        }
+    }
+
+    return view('welcome', [
+        'articles' => $articles,
+        'articles_by_filename' => $articles_by_filename,
+    ]);
 });
+
 //Route::resource('/', ArticleController::class);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
