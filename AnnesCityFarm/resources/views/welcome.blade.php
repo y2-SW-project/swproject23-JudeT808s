@@ -4,9 +4,12 @@
     <div class="container mx-5">
         <div class="row justify-content-center">
             <div>
-                {{ dd($articles) }}
+                {{-- {{ dd($articles) }} --}}
+                {{-- @foreach ($articles->images() as $image)
+                    $image
+                @endforeach --}}
                 @foreach ($articles as $article)
-                    {{ $article }}
+                    {{ $articles[6]->images->first->filename }}
                 @endforeach
                 <h1>Hello World</h1>
                 <h3>This is a laravel-bootstrap template</h3>

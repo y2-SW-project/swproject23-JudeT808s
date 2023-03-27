@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('subtitle');
             $table->date('publish_date');
             // $table->unsignedBigInteger('image_id')->nullable();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('admin_id')->constrained('admins');
             $table->timestamps();
             // $table->string('image');
             // $table->foreign('image_id')->references('id')->on('images')->onDelete('set null');

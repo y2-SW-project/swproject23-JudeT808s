@@ -18,10 +18,9 @@ class ArticleController extends Controller
         // $books = Book::with('publisher')->get();
         // $articles = Article::with('article')
         //     ->get();
-        $articles = Article::with('article')->pluck('images')->collapse();
-
-
-
+        $articles = Article::with('images')->get();
+        //Retro without eager loading
+        // $articles = Article::with('article')->pluck('images')->collapse();
         return view('articles')->with('articles', $articles);
     }
 
