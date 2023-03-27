@@ -11,10 +11,10 @@ class Article extends Model
 {
 
     use HasFactory;
-    public function image()
-    {
-        return $this->belongsTo(Image::class);
-    }
+    // public function image()
+    // {
+    //     return $this->belongsTo(Image::class);
+    // }
 
     public function images()
     {
