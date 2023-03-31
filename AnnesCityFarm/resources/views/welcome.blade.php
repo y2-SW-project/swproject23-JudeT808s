@@ -3,23 +3,15 @@
     <div class="container mx-5">
         <div class="row justify-content-center">
             <div>
-                @foreach ($articles as $article)
-                    {{-- <h2>{{ $articles->image->filename }}</h2> --}}
-                    <ul>
-                        @foreach ($articles as $article)
-                            <li>{{ $article->filename }}</li>
-                            {{ $article }}
-                            {{ $article->images }}
-                            {{ $article->filename }}
-                            {{ $article->articles_by_filename }}
-                        @endforeach
-                    </ul>
-                @endforeach
+                <ul>
 
 
-                @foreach ($articles as $article)
-                    <h2>{{ $article->title }}</h2>
-                @endforeach
+
+                    {{-- {{ $articles_by_filename[1] }} --}}
+
+
+                </ul>
+
 
                 {{-- @foreach ($images->articles as $article)
                     {
@@ -43,19 +35,19 @@
                 </div>
 
                 <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
-                    {{-- @foreach ($articles_by_filename as $filename => $articles) --}}
-                    <div class="col">
-                        <div class="card">
-                            <img src="{{ $article->filename }}" class="card-img-top">
-                            <div class="card-body">
-                                @foreach ($articles as $article)
-                                    <h5 class="card-title">{{ $article->title }}</h5>
-                                    <p class="card-text">{{ $article->subtitle }}</p>
-                                @endforeach
+                    @foreach ($articles as $article)
+                        @foreach ($images_by_article[$article->id] as $image)
+                            <div class="col">
+                                <div class="card">
+                                    <img src="{{ $image->filename }}"class="card-img-top">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $article->title }}</h5>
+                                        <p class="card-text">{{ $article->subtitle }}</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    {{-- @endforeach --}}
+                        @endforeach
+                    @endforeach
                 </div>
 
 

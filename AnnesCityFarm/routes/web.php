@@ -62,28 +62,26 @@ Route::get('/main', function () {
 });
 
 Auth::routes();
-Route::get('/', function () {
+// Route::get('/', function () {
 
-    $articles = Article::with('images')->get();
-    // $articles_by_filename = [];
+//     $articles = Article::with('images')->get();
+//     // $articles_by_filename = [];
 
-    foreach ($articles as $article) {
-        foreach ($article->images as $image) {
-            $filename = $image->filename;
-            $articles_by_filename[$filename][] = $article;
-            
-        }
-        
-    }
-    //Files not being read in view
-    return view('welcome', [
-        'articles' => $articles,
-        // 'filename' => $article->$filename,
-        'articles_by_filename' => $articles_by_filename,
-    ]);
-
-   
-});
+//     foreach ($articles as $article) {
+//         foreach ($article->images as $image) {
+//             $filename = $image->filename;
+//             $articles_by_filename[$filename][] = $article;
+//         }
+//     }
+//     //Files not being read in view
+//     return view('welcome', [
+//         'articles' => $articles,
+//         // 'filename' => $filename,
+//         // 'articles_by_filename' => $articles_by_filename,
+//     ]);
+// });
+Route::get('/', [ArticleController::class, 'index']);
+Route::get('/hi', [ArticleController::class, 'index']);
 
 //Route::resource('/', ArticleController::class);
 

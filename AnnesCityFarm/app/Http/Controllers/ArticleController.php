@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use PhpParser\Node\Stmt\TraitUseAdaptation\Alias;
 
 class ArticleController extends Controller
 {
@@ -12,36 +15,56 @@ class ArticleController extends Controller
      */
     public function index()
     {
-
-        //This is how it looks
-        // $images = $article->images->first()->filename;
-
-        // $articles = Article::with('images')->get();
-        // //Retro without eager loading
-        // // $articles = Article::with('article')->pluck('images')->collapse();
-        // return view('articles')->with('articles', $articles);
         $articles = Article::with('images')->get();
-        $images = Images::class;
-        $articles_by_filename = [];
 
-        foreach ($articles as $article) {
-            foreach ($article->images as $image) {
-                $filename = $image->filename;
-                $articles_by_filename[$filename][] = $articles;
-            }
+        $articles_with_images = $articles->filter(function ($article) {
+            return $article->images->count() > 0;
+        });
+
+        $images_by_article = [];
+
+        foreach ($articles_with_images as $article) {
+            $images = Image::whereHasMorph('imageable', [$article->getMorphClass()], function ($query) use ($article) {
+                $query->where('imageable_id', $article->getKey());
+            })->get();
+
+            $images_by_article[$article->id] = $images;
         }
-        // foreach($images as $image->imageable_id){
-        //     foreach($articles as $article){
-        //         $imageName = 
-        //     }
-        // }
 
-        return view('articles')->with([
-            'articles' => $articles,
-            'filename' => $filename,
-            'articles_by_filename' => $articles_by_filename,
-        ]);
+        return view('welcome', compact('articles', 'images_by_article'));
     }
+
+    // return Image::query()->whereMorphedTo('imageable', $articles)
+    // ->where('imageable_id', $articles->getKey())->get();
+
+    //This is how it looks
+    // $images = $article->images->first()->filename;
+
+    // $articles = Article::with('images')->get();
+    // //Retro without eager loading
+    // // $articles = Article::with('article')->pluck('images')->collapse();
+    // return view('articles')->with('articles', $articles);
+    // $articles = Article::with('images')->get();
+    // $images = Images::class;
+    // $articles_by_filename = [];
+
+    // foreach ($articles as $article) {
+    //     foreach ($article->images as $image) {
+    //         $filename = $image->filename;
+    //         $articles_by_filename[$filename][] = $article;
+    //     }
+    // }
+    // // foreach($images as $image->imageable_id){
+    // //     foreach($articles as $article){
+    // //         $imageName = 
+    // //     }
+    // // }
+
+    // return view('welcome')->with([
+    //     'articles' => $articles,
+    //     'articles_by_filename' => $articles_by_filename
+    // ]);
+
 
     /**
      * Show the form for creating a new resource.
