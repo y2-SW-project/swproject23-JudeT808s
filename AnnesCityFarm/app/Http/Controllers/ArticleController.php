@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use App\Models\Image;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
 
@@ -20,21 +21,39 @@ class ArticleController extends Controller
         // // $articles = Article::with('article')->pluck('images')->collapse();
         // return view('articles')->with('articles', $articles);
         $articles = Article::with('images')->get();
+        $images = Images::class;
         $articles_by_filename = [];
 
         foreach ($articles as $article) {
             foreach ($article->images as $image) {
                 $filename = $image->filename;
-                $articles_by_filename[$filename][] = $article;
+                $articles_by_filename[$filename][] = $articles;
             }
         }
+        // foreach($images as $image->imageable_id){
+        //     foreach($articles as $article){
+        //         $imageName = 
+        //     }
+        // }
 
         return view('articles')->with([
             'articles' => $articles,
+            'filename' => $filename,
             'articles_by_filename' => $articles_by_filename,
         ]);
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -60,5 +79,37 @@ class ArticleController extends Controller
             'type' => $image->getClientMimeType(),
             'path' => $path,
         ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Article $articles)
+    {
+        $article = Article::where('$articles->id =1');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
     }
 }

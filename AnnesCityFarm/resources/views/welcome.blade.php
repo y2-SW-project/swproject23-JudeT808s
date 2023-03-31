@@ -1,22 +1,25 @@
 @extends('layouts.app')
-
 @section('content')
     <div class="container mx-5">
         <div class="row justify-content-center">
             <div>
                 @foreach ($articles as $article)
-                    <h2>{{ $article->title }}</h2>
+                    {{-- <h2>{{ $articles->image->filename }}</h2> --}}
                     <ul>
-                        @foreach ($article->images as $image)
-                            <li>{{ $image->filename }}</li>
+                        @foreach ($articles as $article)
+                            <li>{{ $article->filename }}</li>
+                            {{ $article }}
+                            {{ $article->images }}
+                            {{ $article->filename }}
+                            {{ $article->articles_by_filename }}
                         @endforeach
                     </ul>
                 @endforeach
 
 
-                {{-- @foreach ($articles as $article)
+                @foreach ($articles as $article)
                     <h2>{{ $article->title }}</h2>
-                @endforeach --}}
+                @endforeach
 
                 {{-- @foreach ($images->articles as $article)
                     {
@@ -24,9 +27,7 @@
                     }
                 @endforeach --}}
 
-                {{-- @foreach ($articles as $article)
-                    {{ dd($article . image) }}
-                @endforeach --}}
+
                 <h1>Hello World</h1>
                 <h3>This is a laravel-bootstrap template</h3>
                 <div class="mt-5">
@@ -42,19 +43,19 @@
                 </div>
 
                 <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
-                    @foreach ($articles_by_filename as $filename => $articles)
-                        <div class="col">
-                            <div class="card">
-                                <img src="{{ asset($filename) }}" class="card-img-top">
-                                <div class="card-body">
-                                    @foreach ($articles as $article)
-                                        <h5 class="card-title">{{ $article->title }}</h5>
-                                        <p class="card-text">{{ $article->subtitle }}</p>
-                                    @endforeach
-                                </div>
+                    {{-- @foreach ($articles_by_filename as $filename => $articles) --}}
+                    <div class="col">
+                        <div class="card">
+                            <img src="{{ $article->filename }}" class="card-img-top">
+                            <div class="card-body">
+                                @foreach ($articles as $article)
+                                    <h5 class="card-title">{{ $article->title }}</h5>
+                                    <p class="card-text">{{ $article->subtitle }}</p>
+                                @endforeach
                             </div>
                         </div>
-                    @endforeach
+                    </div>
+                    {{-- @endforeach --}}
                 </div>
 
 
