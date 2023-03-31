@@ -107,10 +107,24 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Article $articles)
+    public function show($id)
     {
-        $article = Article::where('$articles->id =1');
+        $article = Article::findOrFail($id);
+        $article->load('images');
+
+        $images = Image::whereHasMorph('imageable', [$article->getMorphClass()], function ($query) use ($article) {
+            $query->where('imageable_id', $article->getKey());
+        })->get();
+
+        $images_by_article[$article->id] = $images;
+
+        // Render the view with the images
+        return view('article', compact('article', 'images_by_article'));
     }
+
+
+    // $article = Article::where('$articles->id =1');
+
 
     /**
      * Show the form for editing the specified resource.

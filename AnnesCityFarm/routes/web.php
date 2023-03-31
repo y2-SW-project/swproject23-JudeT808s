@@ -81,7 +81,7 @@ Auth::routes();
 //     ]);
 // });
 Route::get('/', [ArticleController::class, 'index']);
-Route::get('/hi', [ArticleController::class, 'index']);
+Route::get('/article/{id}', [ArticleController::class, 'show'])->name('show');
 
 //Route::resource('/', ArticleController::class);
 
