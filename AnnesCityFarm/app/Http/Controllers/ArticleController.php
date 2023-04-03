@@ -33,45 +33,12 @@ class ArticleController extends Controller
 
         return view('welcome', compact('articles', 'images_by_article'));
     }
-
-    // return Image::query()->whereMorphedTo('imageable', $articles)
-    // ->where('imageable_id', $articles->getKey())->get();
-
-    //This is how it looks
-    // $images = $article->images->first()->filename;
-
-    // $articles = Article::with('images')->get();
-    // //Retro without eager loading
-    // // $articles = Article::with('article')->pluck('images')->collapse();
-    // return view('articles')->with('articles', $articles);
-    // $articles = Article::with('images')->get();
-    // $images = Images::class;
-    // $articles_by_filename = [];
-
-    // foreach ($articles as $article) {
-    //     foreach ($article->images as $image) {
-    //         $filename = $image->filename;
-    //         $articles_by_filename[$filename][] = $article;
-    //     }
-    // }
-    // // foreach($images as $image->imageable_id){
-    // //     foreach($articles as $article){
-    // //         $imageName = 
-    // //     }
-    // // }
-
-    // return view('welcome')->with([
-    //     'articles' => $articles,
-    //     'articles_by_filename' => $articles_by_filename
-    // ]);
-
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return view('create_article');
     }
 
     /**
@@ -89,6 +56,7 @@ class ArticleController extends Controller
         $article->title = $request->input('title');
         $article->subtitle = $request->input('subtitle');
         $article->publish_date = $request->input('publish_date');
+        $article->admin_id = '1';
         $article->save();
 
         $image = $request->file('image');
@@ -129,10 +97,25 @@ class ArticleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(article $article)
     {
-        //
+
+        // $user = Auth::user();
+        // $user->authorizeRoles('admin');
+        // //If user is not an authorized user they can not edit existing tournaments
+        // if ($tournament->user_id != Auth::id()) {
+        //     return abort(403);
+        // }
+
+
+        // // get all teams from db
+        // $teams = Team::all();
+        // ->with( all teams ) 
+        //Returns the edit.blade.php page with an array of teams
+        return view('article.edit')->with('article', $article);
     }
+
+
 
     /**
      * Update the specified resource in storage.

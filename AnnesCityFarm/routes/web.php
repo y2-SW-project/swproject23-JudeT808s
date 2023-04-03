@@ -60,28 +60,15 @@ Route::get('/hi', function () {
 Route::get('/main', function () {
     return view('main');
 });
-
-Auth::routes();
-// Route::get('/', function () {
-
-//     $articles = Article::with('images')->get();
-//     // $articles_by_filename = [];
-
-//     foreach ($articles as $article) {
-//         foreach ($article->images as $image) {
-//             $filename = $image->filename;
-//             $articles_by_filename[$filename][] = $article;
-//         }
-//     }
-//     //Files not being read in view
-//     return view('welcome', [
-//         'articles' => $articles,
-//         // 'filename' => $filename,
-//         // 'articles_by_filename' => $articles_by_filename,
-//     ]);
+// Route::get('/create_article', function(){
+//     return view('create_article');
 // });
+Auth::routes();
+
+Route::get('/create_article', [ArticleController::class, 'create'])->name('create_article');
 Route::get('/', [ArticleController::class, 'index']);
 Route::get('/article/{id}', [ArticleController::class, 'show'])->name('show');
+Route::post('articles.store', [ArticleController::class, 'store'])->name('articles.store');
 
 //Route::resource('/', ArticleController::class);
 
