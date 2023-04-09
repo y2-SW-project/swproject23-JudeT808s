@@ -43,6 +43,8 @@
                                         {{-- <img src="{{ $image->filename }}"class="card-img-top"> --}}
                                         @if (Str::startsWith($image->type, 'image/'))
                                             <img src="{{ asset('storage/' . $image->path) }}" alt="">
+
+
                                             {{-- <img src="{{ asset($image->path) }}" alt="{{ $image->filename }}"> --}}
                                         @else
                                             <img src="{{ $image->filename }}" alt="{{ $image->filename }}">

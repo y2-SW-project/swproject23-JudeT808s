@@ -62,7 +62,9 @@ Route::get('/main', function () {
 });
 
 Auth::routes();
-
+Route::get('welcome', function () {
+    return view('welcome');
+});
 
 Route::get('/article-create', [ArticleController::class, 'create'])->name('article-create');
 Route::put('/article/{article}', [ArticleController::class, 'update'])->name('article-update');
@@ -70,10 +72,18 @@ Route::put('/article/{article}', [ArticleController::class, 'update'])->name('ar
 // Route::put('article-update', [ArticleController::class, 'update'])->name('update');
 
 Route::get('/article/edit/{article}', [ArticleController::class, 'edit'])->name('article-edit');
-Route::get('/', [ArticleController::class, 'index']);
+Route::delete('/article/delete/{id}', [ArticleController::class, 'destroy'])->name('article-delete');
+Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
 Route::get('/article/{id}', [ArticleController::class, 'show'])->name('show');
 Route::post('article.store', [ArticleController::class, 'store'])->name('article.store');
 
 //Route::resource('/', ArticleController::class);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//idk if this will work
+// Route for deleting an image
+Route::delete('/article/{article}/image/{image}', [ArticleController::class, 'deleteImage'])->name('article.deleteImage');
+
+// Route for viewing an image
+Route::get('/article/{article}/image/{image}', [ArticleController::class, 'viewImage'])->name('article.viewImage');

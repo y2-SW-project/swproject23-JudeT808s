@@ -6,6 +6,7 @@ use App\Models\Image;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use PhpParser\Node\Stmt\TraitUseAdaptation\Alias;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
@@ -43,7 +44,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('article-create');
+        return view('articles.article-create');
     }
     /**
      * Store a newly created resource in storage.
@@ -83,7 +84,7 @@ class ArticleController extends Controller
         $images_by_article[$article->id] = $images;
 
         // Render the view with the images
-        return view('article', compact('article', 'images_by_article'));
+        return view('articles.article', compact('article', 'images_by_article'));
     }
 
     /**
@@ -109,7 +110,7 @@ class ArticleController extends Controller
         $images_by_article[$article->id] = $images;
 
         // Render the view with the images
-        return view('article', compact('article', 'images_by_article'));
+        return view('articles.article', compact('article', 'images_by_article'));
     }
 
 
@@ -132,15 +133,20 @@ class ArticleController extends Controller
         // }
 
         // $article = Article::findOrFail($article);
+        $article->load('images');
 
+        $images = Image::whereHasMorph('imageable', [$article->getMorphClass()], function ($query) use ($article) {
+            $query->where('imageable_id', $article->getKey());
+        })->get();
 
         //Returns the edit.blade.php page with an array of teams
-        //$article = Article::find($id);
-        $image = $article->images->first();
+        // $image = $article->images->first();
+        $images_by_article[$article->id] = $images;
 
         // return view('article-edit', compact('article', 'image'));
         //->with('article', $article);
-        return view('article-edit')->with('article', $article)->with('image', $image);
+        return view('articles.article-edit')->with('article', $article)->with('images_by_article', $images_by_article);
+        // return view('articles.article-edit')->with('article', $article)->with('image', $image);
     }
 
     /**
@@ -182,7 +188,7 @@ class ArticleController extends Controller
 
         $articles = Article::orderBy('publish_date', 'desc')->get();
         $images_by_article = Image::whereIn('article_id', $articles->pluck('id'))->get()->groupBy('article_id');
-        return view('article', compact('article', 'images_by_article'));
+        return view('articles.article', compact('article', 'images_by_article'));
     }
 
 
@@ -191,16 +197,23 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        // $user->authorizeRoles('admin');
-        //Gets teams M:N to detatch foreign key
-        // $article->imageable()->detach();
-        //drops team_id where equals tournament id that is deleted
-        // DB::table('team_tournament')->where('team_id', $tournament->id)->delete();
-        // // $tournament->teams()->delete();
-        // $tournament->delete();
+        $article = Article::findOrFail($id);
+        $article->delete();
+        return redirect()->route('article.index')
+            ->with('success', 'Article has been deleted successfully!');
+    }
 
-        // return to_route('admin.tournament.index')->with('success', 'Tournament deleted successfully');
+    public function deleteImage(Article $article, Image $image)
+    {
+        // Delete the image from storage
+        Storage::delete($image->path);
+
+        // Delete the image record from the database
+        $image->delete();
+
+        // Redirect back to the article edit page
+        return redirect()->route('article.edit', ['article' => $article->id])->with('success', 'Image deleted successfully');
     }
 }
