@@ -32,7 +32,25 @@
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>
+                    {{-- @foreach ($article->images as $index => $image)
+                            <div class="carousel-item">
+                                @if (Str::startsWith($image->type, 'image/'))
+                                    <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $image->filename }}">
+                                @else
+                                    <img src="{{ $image->filename }}" alt="{{ $image->filename }}">
+                                @endif
+                            </div>
+                        @endforeach --}}
                 </div>
+                {{-- <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div> --}}
                 <div class="card-body">
                     <h5 class="card-title">{{ $article->title }}</h5>
                     <p class="card-text">{{ $article->subtitle }}</p>

@@ -87,6 +87,7 @@ class ArticleController extends Controller
         return view('articles.article', compact('article', 'images_by_article'));
     }
 
+
     /**
      * Display the specified resource.
      *
@@ -112,6 +113,7 @@ class ArticleController extends Controller
         // Render the view with the images
         return view('articles.article', compact('article', 'images_by_article'));
     }
+
 
 
     // $article = Article::where('$articles->id =1');
