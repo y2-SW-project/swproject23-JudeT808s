@@ -1,17 +1,39 @@
 @extends('layouts.app')
 @section('content')
     <div class="row">
-
-        @foreach ($images_by_article[$article->id] as $image)
-            <div class="col">
-                <div class="card">
-                    <img src="{{ $image->filename }}"class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $article->title }}</h5>
-                        <p class="card-text">{{ $article->subtitle }}</p>
+        <div class="col">
+            <div class="card">
+                <a href="{{ route('article-edit', ['article' => $article->id]) }}" class="btn-link ml-auto">Edit
+                    team</a>
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        @if (isset($images_by_article[$article->id]))
+                            @foreach ($images_by_article[$article->id] as $index => $image)
+                                <div class="carousel-item{{ $index == 0 ? ' active' : '' }}">
+                                    @if (Str::startsWith($image->type, 'image/'))
+                                        <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $image->filename }}">
+                                    @else
+                                        <img src="{{ $image->filename }}" alt="{{ $image->filename }}">
+                                    @endif
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
                 </div>
             </div>
-        @endforeach
+            <div class="card-body">
+                <h5 class="card-title">{{ $article->title }}</h5>
+                <p class="card-text">{{ $article->subtitle }}</p>
+            </div>
+        </div>
+    </div>
     </div>
 @endsection

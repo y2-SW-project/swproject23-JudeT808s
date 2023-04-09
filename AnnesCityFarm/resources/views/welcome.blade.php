@@ -4,7 +4,7 @@
         <div class="row justify-content-center">
             <div>
                 <ul>
-                    <a href="{{ route('create_article') }}">Create Article</a>
+                    <a href="{{ route('article-create') }}">Create Article</a>
 
 
                     {{-- {{ $articles_by_filename[1] }} --}}
@@ -36,32 +36,34 @@
                 <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
 
                     @foreach ($articles as $article)
-                        @foreach ($images_by_article[$article->id] as $image)
-                            <div class="col">
-                                <a href="{{ route('show', ['id' => $article->id]) }}">
-
-                                    <div class="card">
+                        <div class="col">
+                            <a href="{{ route('show', ['id' => $article->id]) }}">
+                                <div class="card">
+                                    @foreach ($images_by_article[$article->id] as $image)
                                         {{-- <img src="{{ $image->filename }}"class="card-img-top"> --}}
                                         @if (Str::startsWith($image->type, 'image/'))
-                                        <img src="{{asset('storage/' . $image->path)}}" alt="">
+                                            <img src="{{ asset('storage/' . $image->path) }}" alt="">
                                             {{-- <img src="{{ asset($image->path) }}" alt="{{ $image->filename }}"> --}}
                                         @else
                                             <img src="{{ $image->filename }}" alt="{{ $image->filename }}">
                                         @endif
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ $article->title }}</h5>
-                                            <p class="card-text">{{ $article->subtitle }}</p>
-                                        </div>
-                                    </div>
-                                </a>
+                                    @break
+                                @endforeach
 
+
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $article->title }}</h5>
+                                    <p class="card-text">{{ $article->subtitle }}</p>
+                                </div>
                             </div>
-                        @endforeach
-                    @endforeach
-                </div>
+                        </a>
+
+                    </div>
+                @endforeach
+            </div>
 
 
-                {{-- @foreach ($articles as $article)
+            {{-- @foreach ($articles as $article)
                     @foreach ($article->images as $image)
                         <div class="col">
                             <div class="card">
@@ -102,8 +104,8 @@
                         </div>
                     </div>
                 </div> --}}
-            </div>
         </div>
     </div>
-    </div>
+</div>
+</div>
 @endsection

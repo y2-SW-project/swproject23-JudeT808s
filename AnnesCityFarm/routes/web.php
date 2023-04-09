@@ -60,15 +60,19 @@ Route::get('/hi', function () {
 Route::get('/main', function () {
     return view('main');
 });
-// Route::get('/create_article', function(){
-//     return view('create_article');
-// });
+
 Auth::routes();
 
-Route::get('/create_article', [ArticleController::class, 'create'])->name('create_article');
+
+Route::get('/article-create', [ArticleController::class, 'create'])->name('article-create');
+Route::put('/article/{article}', [ArticleController::class, 'update'])->name('article-update');
+
+// Route::put('article-update', [ArticleController::class, 'update'])->name('update');
+
+Route::get('/article/edit/{article}', [ArticleController::class, 'edit'])->name('article-edit');
 Route::get('/', [ArticleController::class, 'index']);
 Route::get('/article/{id}', [ArticleController::class, 'show'])->name('show');
-Route::post('articles.store', [ArticleController::class, 'store'])->name('articles.store');
+Route::post('article.store', [ArticleController::class, 'store'])->name('article.store');
 
 //Route::resource('/', ArticleController::class);
 
