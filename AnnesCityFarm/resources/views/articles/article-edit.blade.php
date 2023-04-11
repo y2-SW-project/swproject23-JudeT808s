@@ -32,6 +32,7 @@
                     @endif
                 @endforeach
             </div>
+
             <input type="file" class="form-control-file" id="image" name="image">
         </div>
     </div>
@@ -41,19 +42,24 @@
             if (event.target.matches('.delete-image-btn')) {
                 var articleId = event.target.getAttribute('data-article');
                 var imageId = event.target.getAttribute('data-image');
-                var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                var xhr = new XMLHttpRequest();
-                xhr.open('DELETE', '/articles/' + articleId + '/images/' + imageId);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.setRequestHeader('X-CSRF-Token', csrfToken);
-                xhr.onload = function() {
-                    if (xhr.status === 200) {
-                        location.reload();
-                    } else {
-                        console.log(xhr.responseText);
-                    }
-                };
-                xhr.send();
+                var csrfToken = document.querySelector('input[name="_token"]').value;
+
+                // Use fetch API for AJAX request
+                fetch('/articles/' + articleId + '/images/' + imageId, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-Token': csrfToken
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            location.reload();
+                        } else {
+                            console.log(response.statusText);
+                        }
+                    })
+                    .catch(error => console.log(error));
             }
         });
     </script>

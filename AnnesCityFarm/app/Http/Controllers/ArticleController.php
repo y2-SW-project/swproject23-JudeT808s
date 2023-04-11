@@ -6,6 +6,7 @@ use App\Models\Image;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use PhpParser\Node\Stmt\TraitUseAdaptation\Alias;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -147,8 +148,8 @@ class ArticleController extends Controller
 
         // return view('article-edit', compact('article', 'image'));
         //->with('article', $article);
-        return view('articles.article-edit')->with('article', $article)->with('images_by_article', $images_by_article);
-        // return view('articles.article-edit')->with('article', $article)->with('image', $image);
+        // return view('articles.article-edit')->with('article', $article)->with('images_by_article', $images_by_article);
+        return view('articles.article-edit')->with('article', $article)->with('images', $images);
     }
 
     /**
@@ -173,6 +174,9 @@ class ArticleController extends Controller
             'publish_date' => $request->publish_date,
             'admin_id' => '1',
         ]);
+
+        Log::debug('Update method called for article ID ' . $article->id);
+
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -209,13 +213,17 @@ class ArticleController extends Controller
 
     public function deleteImage(Article $article, Image $image)
     {
-        // Delete the image from storage
-        Storage::delete($image->path);
+        // Check if the article and image exist and are related
+        if ($article->images->contains($image)) {
+            // Delete the image from storage
+            Storage::disk('public')->delete($image->path);
 
-        // Delete the image record from the database
-        $image->delete();
+            // Delete the image record from the database
+            $image->delete();
 
-        // Redirect back to the article edit page
-        return redirect()->route('article.edit', ['article' => $article->id])->with('success', 'Image deleted successfully');
+            return response()->json(['message' => 'Image deleted successfully'], 200);
+        }
+
+        return response()->json(['error' => 'Image not found or not associated with the article'], 404);
     }
 }
