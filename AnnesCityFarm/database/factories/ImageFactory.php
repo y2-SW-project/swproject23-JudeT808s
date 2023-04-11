@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Images>
  */
 Relation::morphMap([
-    //'animal' => Animal::class,
+    'animal' => Animal::class,
     'image' => Image::class,
 ]);
 
@@ -32,7 +32,7 @@ class ImageFactory extends Factory
     {
         $imageable = $this->faker->randomElement([
             Article::class,
-            // Animal::class
+            Animal::class
         ]);
 
         // $imageable = $this->imageable();

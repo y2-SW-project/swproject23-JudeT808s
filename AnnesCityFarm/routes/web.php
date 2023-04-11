@@ -80,8 +80,6 @@ Route::delete('/article/delete/{id}', [ArticleController::class, 'destroy'])->na
 
 //Route::resource('/', ArticleController::class);
 
-
-
 //Delete images
 Route::delete('/articles/{article}/images/{image}', [ArticleController::class, 'deleteImage'])->name('articles.images.delete');
 
