@@ -25,8 +25,6 @@ class ArticleFactory extends Factory
             'subtitle' => $this->faker->name,
             'publish_date' => $this->faker->date,
             'admin_id' => Admin::pluck('id')->random(),
-            // 'images' => $this->faker->image('storage/app/public/images', 400, 300, null, false)
-            // 'image' =>  $this->faker->imageUrl(640, 480, 'animals', true),
         ];
     }
 }

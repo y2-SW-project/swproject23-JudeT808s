@@ -37,7 +37,7 @@
 
                     @foreach ($articles as $article)
                         <div class="col">
-                            <a href="{{ route('show', ['id' => $article->id]) }}">
+                            <a href="{{ route('article-show', ['id' => $article->id]) }}">
                                 <div class="card">
                                     @foreach ($images_by_article[$article->id] as $image)
                                         {{-- <img src="{{ $image->filename }}"class="card-img-top"> --}}
@@ -64,8 +64,40 @@
                 @endforeach
             </div>
 
+            <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
 
-            {{-- @foreach ($articles as $article)
+                <h1>Animals</h1>
+                @foreach ($animals as $animal)
+                    <div class="col">
+                        <a href="{{ route('animal-show', ['id' => $animal->id]) }}">
+                            <div class="card">
+                                @if (isset($images_by_animal[$animal->id]))
+                                    @foreach ($images_by_animal[$animal->id] as $image)
+                                        @if (Str::startsWith($image->type, 'image/'))
+                                            <img src="{{ asset('storage/' . $image->path) }}" alt="">
+                                        @else
+                                            <img src="{{ $image->filename }}" alt="{{ $image->filename }}">
+                                        @endif
+                                    @break
+                                @endforeach
+                            @endif
+
+
+
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $animal->name }}</h5>
+                                <p class="card-text">{{ $animal->age }}</p>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+            @endforeach
+        </div>
+    </div>
+
+
+    {{-- @foreach ($articles as $article)
                     @foreach ($article->images as $image)
                         <div class="col">
                             <div class="card">
@@ -106,8 +138,8 @@
                         </div>
                     </div>
                 </div> --}}
-        </div>
-    </div>
+</div>
+</div>
 </div>
 </div>
 @endsection

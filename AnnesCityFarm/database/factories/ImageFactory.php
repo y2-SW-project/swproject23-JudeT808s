@@ -13,7 +13,8 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  */
 Relation::morphMap([
     'animal' => Animal::class,
-    'image' => Image::class,
+    'article' => Article::class,
+    // 'image' => Image::class,
 ]);
 
 class ImageFactory extends Factory

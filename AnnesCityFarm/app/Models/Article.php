@@ -11,10 +11,7 @@ class Article extends Model
 {
     protected $guarded = [];
     use HasFactory;
-    // public function image()
-    // {
-    //     return $this->belongsTo(Image::class);
-    // }
+
     public function getImage()
     {
         return $this->image->images->filename;

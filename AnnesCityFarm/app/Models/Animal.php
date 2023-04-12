@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Faker\Provider\Image;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 

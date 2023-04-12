@@ -5,12 +5,13 @@ namespace Database\Factories;
 use App\Models\Admin;
 use App\Models\Animal;
 use App\Models\Article;
+use App\Models\Species;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Article>
  */
-class ArticleFactory extends Factory
+class AnimalFactory extends Factory
 {
 
     protected $model = \App\Models\Animal::class;
@@ -26,9 +27,8 @@ class ArticleFactory extends Factory
             'name' => $this->faker->name,
             'age' => $this->faker->randomDigit,
             'description' => $this->faker->text,
-            'user_id' => Admin::pluck('id')->random(),
-            // 'images' => $this->faker->image('storage/app/public/images', 400, 300, null, false)
-            // 'image' =>  $this->faker->imageUrl(640, 480, 'animals', true),
+            'admin_id' => Admin::pluck('id')->random(),
+            'species_id' => Species::pluck('id')->random(),
         ];
     }
 }

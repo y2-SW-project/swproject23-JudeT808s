@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnimalController;
 use App\Models\User;
 use App\Models\Admin;
 use Faker\Factory as Faker;
@@ -67,7 +68,10 @@ Route::get('welcome', function () {
 });
 
 Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
-Route::get('/article/{id}', [ArticleController::class, 'show'])->name('show');
+// Route::get('/', [AnimalController::class, 'index'])->name('animals.index');
+
+Route::get('/article/{id}', [ArticleController::class, 'show'])->name('article-show');
+Route::get('/animal/{id}', [AnimalController::class, 'show'])->name('animal-show');
 
 Route::get('/article-create', [ArticleController::class, 'create'])->name('article-create');
 Route::post('article.store', [ArticleController::class, 'store'])->name('article.store');

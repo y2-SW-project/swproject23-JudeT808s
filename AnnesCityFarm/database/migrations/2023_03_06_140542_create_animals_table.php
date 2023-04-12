@@ -17,8 +17,7 @@ return new class extends Migration
             $table->bigInteger('age');
             $table->string('description');
             //One to Many
-            $table->enum('category', ['Goat', 'Pony', 'Sheep', 'Chicken', 'Pig']);
-            // $table->unsignedBigInteger('image_id')->nullable();
+            $table->foreignId('species_id')->constrained('species');
             $table->foreignId('admin_id')->constrained('admins');
             $table->timestamps();
 

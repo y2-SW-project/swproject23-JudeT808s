@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
+use App\Models\Animal;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +22,7 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::with('images')->get();
+        $animals = Animal::with('images')->get();
 
         $articles_with_images = $articles->filter(function ($article) {
             return $article->images->count() > 0;
@@ -36,8 +38,24 @@ class ArticleController extends Controller
             $images_by_article[$article->id] = $images;
         }
 
-        return view('welcome', compact('articles', 'images_by_article'));
+        $animals_with_images = $animals->filter(function ($animal) {
+            return $animal->images->count() > 0;
+        });
+
+        $images_by_animal = [];
+
+        foreach ($animals_with_images as $animal) {
+            $images = Image::whereHasMorph('imageable', [$animal->getMorphClass()], function ($query) use ($animal) {
+                $query->where('imageable_id', $animal->getKey());
+            })->get();
+
+            $images_by_animal[$animal->id] = $images;
+        }
+        // dd($images_by_animal);
+
+        return view('welcome', compact('articles', 'images_by_article', 'animals', 'images_by_animal'));
     }
+
     /**
      * Show the form for creating a new resource.
      *
