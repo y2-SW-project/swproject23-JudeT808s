@@ -13,8 +13,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class AnimalFactory extends Factory
 {
+    protected $model = Animal::class;
 
-    protected $model = \App\Models\Animal::class;
+    // protected $model = \App\Models\Animal::class;
     // protected $article = Article::class;
     /**
      * Define the model's default state.
@@ -28,7 +29,7 @@ class AnimalFactory extends Factory
             'age' => $this->faker->randomDigit,
             'description' => $this->faker->text,
             'admin_id' => Admin::pluck('id')->random(),
-            'species_id' => Species::pluck('id')->random(),
+            'species_id' => Species::factory()->create()->id
         ];
     }
 }

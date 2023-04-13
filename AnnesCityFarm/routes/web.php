@@ -76,16 +76,25 @@ Route::get('/animal/{id}', [AnimalController::class, 'show'])->name('animal-show
 Route::get('/article-create', [ArticleController::class, 'create'])->name('article-create');
 Route::post('article.store', [ArticleController::class, 'store'])->name('article.store');
 
+Route::get('/animal-create', [AnimalController::class, 'create'])->name('animal-create');
+Route::post('animal.store', [AnimalController::class, 'store'])->name('animal.store');
+
 Route::put('/article/{article}', [ArticleController::class, 'update'])->name('article-update');
+Route::put('/animal/{animal}', [AnimalController::class, 'update'])->name('animal-update');
 
 Route::get('/article/edit/{article}', [ArticleController::class, 'edit'])->name('article-edit');
 Route::delete('/article/delete/{id}', [ArticleController::class, 'destroy'])->name('article-delete');
+
+Route::get('/animal/edit/{animal}', [AnimalController::class, 'edit'])->name('animal-edit');
+Route::delete('/animal/delete/{id}', [AnimalController::class, 'destroy'])->name('animal-delete');
 
 
 //Route::resource('/', ArticleController::class);
 
 //Delete images
 Route::delete('/articles/{article}/images/{image}', [ArticleController::class, 'deleteImage'])->name('articles.images.delete');
+Route::delete('/animals/{animal}/images/{image}', [AnimalController::class, 'deleteImage'])->name('animals.images.delete');
 
 // Route for viewing an image
 Route::get('/article/{article}/image/{image}', [ArticleController::class, 'viewImage'])->name('article.viewImage');
+Route::get('/animal/{animal}/image/{image}', [animalController::class, 'viewImage'])->name('animal.viewImage');

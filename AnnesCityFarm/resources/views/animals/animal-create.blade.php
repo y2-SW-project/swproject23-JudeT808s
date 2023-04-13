@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('article.store') }}" enctype="multipart/form-data">
+<form method="POST" action="{{ route('animal.store') }}" enctype="multipart/form-data">
     @csrf
 
 
@@ -8,19 +8,28 @@
     </div>
 
     <div class="form-group">
-        <label for="subtitle">Subtitle</label>
-        <input type="text" name="subtitle" id="subtitle" class="form-control" required>
+        <label for="age">Age</label>
+        <input type="text" name="age" id="age" class="form-control" required>
     </div>
 
     <div class="form-group">
-        <label for="publish_date">Publish Date</label>
-        <input type="date" name="publish_date" id="publish_date" class="form-control" required>
+        <label for="description">Description</label>
+        <input type="text" name="description" id="description" class="form-control" required>
     </div>
-
+    <div class="form-group mb-3">
+        <label for="species">Species</label>
+        <select name="species_id">
+            @foreach ($species as $data)
+                <option value="{{ $data->id }}" {{ old('species_id') == $data->id ? 'selected' : '' }}>
+                    {{ $data->name }}
+                </option>
+            @endforeach
+        </select>
+    </div>
     <div class="form-group">
         <label for="image">Image</label>
         <input type="file" name="image" id="image" class="form-control" required>
     </div>
 
-    <button type="submit" class="btn btn-primary">Create Article</button>
+    <button type="submit" class="btn btn-primary">Create Animal</button>
 </form>

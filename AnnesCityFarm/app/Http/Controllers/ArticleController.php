@@ -22,7 +22,7 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::with('images')->get();
-        $animals = Animal::with('images')->get();
+        $animals = Animal::with('images')->with('species')->get();
 
         $articles_with_images = $articles->filter(function ($article) {
             return $article->images->count() > 0;
@@ -37,18 +37,17 @@ class ArticleController extends Controller
 
             $images_by_article[$article->id] = $images;
         }
-
+        // dd($animals);
         $animals_with_images = $animals->filter(function ($animal) {
-            return $animal->images->count() > 0;
+            return $animal->images()->count() > 0;
         });
-
+        // dd($animals_with_images);
         $images_by_animal = [];
 
         foreach ($animals_with_images as $animal) {
             $images = Image::whereHasMorph('imageable', [$animal->getMorphClass()], function ($query) use ($animal) {
                 $query->where('imageable_id', $animal->getKey());
             })->get();
-
             $images_by_animal[$animal->id] = $images;
         }
         // dd($images_by_animal);

@@ -17,10 +17,8 @@ return new class extends Migration
             $table->bigInteger('age');
             $table->string('description');
             //One to Many
-            $table->foreignId('species_id')->constrained('species');
             $table->foreignId('admin_id')->constrained('admins');
             $table->timestamps();
-
         });
         Schema::table('images', function (Blueprint $table) {
             $table->unsignedBigInteger('animal_id')->nullable();

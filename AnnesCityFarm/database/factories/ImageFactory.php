@@ -11,11 +11,11 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Images>
  */
-Relation::morphMap([
-    'animal' => Animal::class,
-    'article' => Article::class,
-    // 'image' => Image::class,
-]);
+// Relation::morphMap([
+//     'animal' => Animal::class,
+//     'article' => Article::class,
+//      'image' => Image::class,
+// ]);
 
 class ImageFactory extends Factory
 {
@@ -24,8 +24,6 @@ class ImageFactory extends Factory
 
     /**
      * Define the model's default state.
-     * 
-     
      *
      * @return array<string, mixed>
      */
@@ -36,7 +34,6 @@ class ImageFactory extends Factory
             Animal::class
         ]);
 
-        // $imageable = $this->imageable();
         return [
             'filename' =>  $this->faker->imageUrl(640, 480, 'animals', true),
             'type' => $this->faker->name,

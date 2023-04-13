@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Admin;
+use App\Models\Species;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ArticleFactory extends Factory
 {
-   
+
     protected $model = \App\Models\Article::class;
     // protected $article = Article::class;
     /**
@@ -25,6 +26,7 @@ class ArticleFactory extends Factory
             'subtitle' => $this->faker->name,
             'publish_date' => $this->faker->date,
             'admin_id' => Admin::pluck('id')->random(),
+           // 'species_id' => Species::factory()
         ];
     }
 }

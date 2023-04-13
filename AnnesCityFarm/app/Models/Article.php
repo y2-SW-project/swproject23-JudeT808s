@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Species;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 // $articles = Article::factory()->hasImages->create();
 
@@ -20,4 +21,5 @@ class Article extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+   
 }

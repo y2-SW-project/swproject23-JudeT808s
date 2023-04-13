@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-use App\Models\Article;
 use App\Models\Image;
+use App\Models\Animal;
+use App\Models\Article;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
@@ -25,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
         Relation::morphMap([
             'image' => Image::class,
             'article' => Article::class,
+            'animal' => Animal::class,
         ]);
     }
 }

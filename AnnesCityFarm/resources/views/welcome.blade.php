@@ -5,6 +5,7 @@
             <div>
                 <ul>
                     <a href="{{ route('article-create') }}">Create Article</a>
+                    <a href="{{ route('animal-create') }}">Create Animal</a>
 
 
                     {{-- {{ $articles_by_filename[1] }} --}}
@@ -87,6 +88,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ $animal->name }}</h5>
                                 <p class="card-text">{{ $animal->age }}</p>
+                                <p class="card-text">{{ $animal->species->name }}</p>
                             </div>
                         </div>
                     </a>

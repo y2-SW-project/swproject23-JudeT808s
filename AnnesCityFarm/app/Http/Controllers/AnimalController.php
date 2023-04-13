@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Image;
 use App\Models\animal;
+use App\Models\Species;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -20,7 +21,7 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        $animals = Animal::with('images')->get();
+        $animals = Animal::with('images')->with('species')->get();
 
         $animals_with_images = $animals->filter(function ($animal) {
             return $animal->images->count() > 0;
@@ -45,7 +46,8 @@ class AnimalController extends Controller
      */
     public function create()
     {
-        return view('animals.animal-create');
+        $species = Species::get();
+        return view('animals.animal-create')->with('species', $species);
     }
     /**
      * Store a newly created resource in storage.
@@ -56,37 +58,43 @@ class AnimalController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'subtitle' => 'required',
-            'publish_date' => 'required',
-        ]);
+            'name' => 'required',
+            'age' => 'required',
+            'description' => 'required',
+            'species_id' => 'required',
 
-        $animal = new animal();
-        $animal->title = $request->input('title');
-        $animal->subtitle = $request->input('subtitle');
-        $animal->publish_date = $request->input('publish_date');
+        ]);
+        $animal = new Animal();
+        $animal->name = $request->input('name');
+        $animal->age = $request->input('age');
+        $animal->description = $request->input('description');
+        $animal->species_id = $request->input('species_id');
         $animal->admin_id = '1';
         $animal->save();
-
         $image = $request->file('image');
         $filename = time() . '.' . $image->getClientOriginalExtension();
         $path = $image->storeAs('images', $filename, 'public');
-
-
-
-        $animal->images()->create([
+        $imageModel = new Image([
             'filename' => $filename,
             'type' => $image->getClientMimeType(),
             'path' => $path,
         ]);
+        $imageModel->imageable_type = get_class($animal); // Set the imageable_type to the class name of the morphable model
+        $imageModel->imageable_id = $animal->id; // Set the imageable_id to the id of the morphable model
+        $imageModel->save();
+
+
         $images = Image::whereHasMorph('imageable', [$animal->getMorphClass()], function ($query) use ($animal) {
             $query->where('imageable_id', $animal->getKey());
         })->get();
         $images_by_animal[$animal->id] = $images;
 
+
         // Render the view with the images
-        return view('animals.animal', compact('animal', 'images_by_animal'));
+        // Render the view with the animal, images, and species
+        return view('animals.animal', compact('animal', 'images_by_animal'))->with('species', $animal->species);
     }
+
 
 
     /**
@@ -97,7 +105,7 @@ class AnimalController extends Controller
      */
     public function show($id)
     {
-        $animal = animal::where('id', $id)->firstOrFail();
+        $animal = Animal::with('species')->findOrFail($id); // Chain 'with' before 'findOrFail'
 
         if (!$animal) {
             abort(404);
@@ -111,7 +119,7 @@ class AnimalController extends Controller
 
         $images_by_animal[$animal->id] = $images;
 
-        // Render the view with the images
+        // Render the view with the images and species
         return view('animals.animal', compact('animal', 'images_by_animal'));
     }
 
@@ -126,16 +134,9 @@ class AnimalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(animal $animal)
+    public function edit(Animal $animal)
     {
-        // $user = Auth::user();
-        // $user->authorizeRoles('admin');
-        // //If user is not an authorized user they can not edit existing tournaments
-        // if ($tournament->user_id != Auth::id()) {
-        //     return abort(403);
-        // }
-
-        // $animal = animal::findOrFail($animal);
+        $species = Species::get();
         $animal->load('images');
 
         $images = Image::whereHasMorph('imageable', [$animal->getMorphClass()], function ($query) use ($animal) {
@@ -149,7 +150,7 @@ class AnimalController extends Controller
         // return view('animal-edit', compact('animal', 'image'));
         //->with('animal', $animal);
         // return view('animals.animal-edit')->with('animal', $animal)->with('images_by_animal', $images_by_animal);
-        return view('animals.animal-edit')->with('animal', $animal)->with('images', $images);
+        return view('animals.animal-edit')->with('animal', $animal)->with('images', $images)->with('species', $species);
     }
 
     /**
@@ -163,15 +164,16 @@ class AnimalController extends Controller
     public function update(Request $request, animal $animal)
     {
         $request->validate([
-            'title' => 'required',
-            'subtitle' => 'required',
-            'publish_date' => 'required',
+            'name' => 'required',
+            'age' => 'required',
+            'description' => 'required',
+            'species_id' => 'required',
         ]);
 
         $animal->update([
-            'title' => $request->title,
-            'subtitle' => $request->subtitle,
-            'publish_date' => $request->publish_date,
+            'name' => $request->name,
+            'age' => $request->age,
+            'species_id' => $request->species_id,
             'admin_id' => '1',
         ]);
 
@@ -192,7 +194,7 @@ class AnimalController extends Controller
             ]);
         }
 
-        $animals = animal::orderBy('publish_date', 'desc')->get();
+        $animals = Animal::get();
         $images_by_animal = Image::whereIn('animal_id', $animals->pluck('id'))->get()->groupBy('animal_id');
         return view('animals.animal', compact('animal', 'images_by_animal'));
     }
@@ -211,7 +213,7 @@ class AnimalController extends Controller
             ->with('success', 'animal has been deleted successfully!');
     }
 
-    public function deleteImage(animal $animal, Image $image)
+    public function deleteImage(Animal $animal, Image $image)
     {
         // Check if the animal and image exist and are related
         if ($animal->images->contains($image)) {
