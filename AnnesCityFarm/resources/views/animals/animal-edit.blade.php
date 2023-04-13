@@ -1,7 +1,7 @@
 <form method="POST" action="{{ route('animal-update', $animal) }}" enctype="multipart/form-data" method="post">
     @method('PUT')
     @csrf
-    <label for="title">Name</label>
+    <label for="name">Name</label>
     <input type="text" name="name" id="name" class="form-control" value="{{ $animal->name }} " required>
     <div class="form-group">
     </div>
