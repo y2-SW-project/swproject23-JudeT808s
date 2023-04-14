@@ -1,18 +1,17 @@
 <?php
 
-use App\Models\User;
-use App\Models\Admin;
-use App\Models\Article;
-use App\Models\Volunteer;
-use Faker\Factory as Faker;
+use App\Http\Controllers\Admin\AnimalController as AdminAnimalController;
+use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
+use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
+use App\Http\Controllers\Admin\VolunteerController as AdminVolunteerController;
+use App\Http\Controllers\User\AnimalController as UserAnimalController;
+use App\Http\Controllers\User\ReviewController as UserReviewController;
+use App\Http\Controllers\User\ArticleController as UserArticleController;
+use App\Http\Controllers\User\VolunteerController as UserVolunteerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AnimalController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\VolunteerController;
-use Illuminate\Database\Eloquent\Relations\Relation;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -64,47 +63,37 @@ Route::get('/hi', function () {
 Route::get('/main', function () {
     return view('main');
 });
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/home', [App\Http\Controllers\ArticleController::class, 'index'])->name('home');
+
 Auth::routes();
+
 Route::get('welcome', function () {
     return view('welcome');
 });
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('welcome');
+// Route::get('/', [AdminArticleController::class, 'index'])->name('admin.articles.index');
 
-Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
-// Route::get('/', [AnimalController::class, 'index'])->name('animals.index');
+// Resource routes for articles
+Route::resource('/admin/article', AdminArticleController::class)->middleware(['auth'])->names('admin.articles');
+Route::resource('/user/article', UserArticleController::class)->middleware(['auth'])->names('user.articles')->only(['index', 'show']);
 
-Route::get('/article/{id}', [ArticleController::class, 'show'])->name('article-show');
-Route::get('/animal/{id}', [AnimalController::class, 'show'])->name('animal-show');
+// Resource routes for animals
+Route::resource('/admin/animal', AdminAnimalController::class)->middleware(['auth'])->names('admin.animals');
+Route::resource('/user/animal', UserAnimalController::class)->middleware(['auth'])->names('user.animals')->only(['index', 'show']);
 
-Route::get('/article-create', [ArticleController::class, 'create'])->name('article-create');
-Route::post('article.store', [ArticleController::class, 'store'])->name('article.store');
+// Resource routes for volunteers
+Route::resource('/admin/volunteer', AdminVolunteerController::class)->middleware(['auth'])->names('admin.volunteers')->only(['index', 'show']);
+Route::resource('/user/volunteer', UserVolunteerController::class)->middleware(['auth'])->names('user.volunteers');
 
-Route::get('/animal-create', [AnimalController::class, 'create'])->name('animal-create');
-Route::post('animal.store', [AnimalController::class, 'store'])->name('animal.store');
+Route::resource('/admin/review', AdminReviewController::class)->middleware(['auth'])->names('admin.reviews')->only(['index', 'show']);
+Route::resource('/user/review', UserReviewController::class)->middleware(['auth'])->names('user.reviews');
 
-Route::put('/article/{article}', [ArticleController::class, 'update'])->name('article-update');
-Route::put('/animal/{animal}', [AnimalController::class, 'update'])->name('animal-update');
+// Custom route for storing reviews
+Route::post('review.store', [UserReviewController::class, 'store'])->name('review.store')->middleware(['auth']);
 
-Route::get('/article/edit/{article}', [ArticleController::class, 'edit'])->name('article-edit');
-Route::delete('/article/delete/{id}', [ArticleController::class, 'destroy'])->name('article-delete');
+// Delete images routes
+Route::delete('/articles/{article}/images/{image}', [AdminArticleController::class, 'deleteImage'])->name('articles.images.delete')->middleware(['auth']);
+Route::delete('/animals/{animal}/images/{image}', [AdminAnimalController::class, 'deleteImage'])->name('animals.images.delete')->middleware(['auth']);
 
-Route::get('/animal/edit/{animal}', [AnimalController::class, 'edit'])->name('animal-edit');
-Route::delete('/animal/delete/{id}', [AnimalController::class, 'destroy'])->name('animal-delete');
-
-//Volunteer
-Route::get('/volunteer-create', [VolunteerController::class, 'create'])->name('volunteer-create');
-Route::post('volunteer.store', [VolunteerController::class, 'store'])->name('volunteer.store');
-Route::post('review.store', [ReviewController::class, 'store'])->name('review.store');
-
-
-
-//Route::resource('/', ArticleController::class);
-
-//Delete images
-Route::delete('/articles/{article}/images/{image}', [ArticleController::class, 'deleteImage'])->name('articles.images.delete');
-Route::delete('/animals/{animal}/images/{image}', [AnimalController::class, 'deleteImage'])->name('animals.images.delete');
-
-// Route for viewing an image
-Route::get('/article/{article}/image/{image}', [ArticleController::class, 'viewImage'])->name('article.viewImage');
-Route::get('/animal/{animal}/image/{image}', [animalController::class, 'viewImage'])->name('animal.viewImage');
+// View image routes
+Route::get('/article/{article}/image/{image}', [AdminArticleController::class, 'viewImage'])->name('article.viewImage');
+Route::get('/animal/{animal}/image/{image}', [AdminAnimalController::class, 'viewImage'])->name('animal.viewImage');

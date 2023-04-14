@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\User;
 use App\Models\Image;
 use App\Models\Animal;
-use App\Models\Article;
 use App\Models\Review;
+use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use PhpParser\Node\Stmt\TraitUseAdaptation\Alias;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -22,6 +25,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
+
+
         $articles = Article::with('images')->get();
         $animals = Animal::with('images')->with('species')->get();
         $reviews = Review::all();
@@ -54,7 +59,7 @@ class ArticleController extends Controller
         }
         // dd($images_by_animal);
 
-        return view('welcome', compact('articles', 'images_by_article', 'animals', 'images_by_animal', 'reviews'));
+        return view('admin.welcome', compact('articles', 'images_by_article', 'animals', 'images_by_animal', 'reviews'));
     }
 
     /**
@@ -64,7 +69,10 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('articles.article-create');
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
+
+        return view('admin.articles.article-create');
     }
     /**
      * Store a newly created resource in storage.
@@ -74,6 +82,9 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
+
         $request->validate([
             'title' => 'required',
             'subtitle' => 'required',
@@ -104,7 +115,7 @@ class ArticleController extends Controller
         $images_by_article[$article->id] = $images;
 
         // Render the view with the images
-        return view('articles.article', compact('article', 'images_by_article'));
+        return view('admin.articles.article', compact('article', 'images_by_article'));
     }
 
 
@@ -116,6 +127,9 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
+
         $article = Article::where('id', $id)->firstOrFail();
 
         if (!$article) {
@@ -131,7 +145,7 @@ class ArticleController extends Controller
         $images_by_article[$article->id] = $images;
 
         // Render the view with the images
-        return view('articles.article', compact('article', 'images_by_article'));
+        return view('admin.articles.article', compact('article', 'images_by_article'))->with('article', $article)->with('images', $images);
     }
 
 
@@ -147,14 +161,8 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        // $user = Auth::user();
-        // $user->authorizeRoles('admin');
-        // //If user is not an authorized user they can not edit existing tournaments
-        // if ($tournament->user_id != Auth::id()) {
-        //     return abort(403);
-        // }
-
-        // $article = Article::findOrFail($article);
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
         $article->load('images');
 
         $images = Image::whereHasMorph('imageable', [$article->getMorphClass()], function ($query) use ($article) {
@@ -168,7 +176,7 @@ class ArticleController extends Controller
         // return view('article-edit', compact('article', 'image'));
         //->with('article', $article);
         // return view('articles.article-edit')->with('article', $article)->with('images_by_article', $images_by_article);
-        return view('articles.article-edit')->with('article', $article)->with('images', $images);
+        return view('admin.articles.article-edit')->with('article', $article)->with('images', $images);
     }
 
     /**
@@ -181,6 +189,9 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
+
         $request->validate([
             'title' => 'required',
             'subtitle' => 'required',
@@ -213,7 +224,7 @@ class ArticleController extends Controller
 
         $articles = Article::orderBy('publish_date', 'desc')->get();
         $images_by_article = Image::whereIn('article_id', $articles->pluck('id'))->get()->groupBy('article_id');
-        return view('articles.article', compact('article', 'images_by_article'));
+        return redirect()->route('admin.articles.show', ['article' => $article->id]);
     }
 
 
@@ -224,14 +235,20 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
+
         $article = Article::findOrFail($id);
         $article->delete();
-        return redirect()->route('article.index')
+        return redirect()->route('admin.articles.index')
             ->with('success', 'Article has been deleted successfully!');
     }
 
     public function deleteImage(Article $article, Image $image)
     {
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
+
         // Check if the article and image exist and are related
         if ($article->images->contains($image)) {
             // Delete the image from storage

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -21,8 +22,17 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('welcome');
+
+        $user = Auth::user();
+        $home = 'home';
+
+        if ($user->hasRole('admin')) {
+            $home = 'admin.articles.index';
+        } else if ($user->hasRole('user')) {
+            $home = 'user.articles.index';
+        }
+        return redirect()->route($home);
     }
 }

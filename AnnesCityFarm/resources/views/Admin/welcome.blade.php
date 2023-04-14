@@ -4,7 +4,8 @@
         <div class="row justify-content-center">
             <div>
                 <ul>
-                    <a href="{{ route('user.volunteers.create') }}">Volunteer</a>
+                    <a href="{{ route('admin.articles.create') }}">Create Article</a>
+                    <a href="{{ route('admin.animals.create') }}">Create Animal</a>
 
 
                     {{-- {{ $articles_by_filename[1] }} --}}
@@ -37,7 +38,7 @@
 
                     @foreach ($articles as $article)
                         <div class="col">
-                            <a href="{{ route('user.articles.show', ['article' => $article->id]) }}">
+                            <a href="{{ route('admin.articles.show', ['article' => $article->id]) }}">
                                 <div class="card">
                                     @foreach ($images_by_article[$article->id] as $image)
                                         {{-- <img src="{{ $image->filename }}"class="card-img-top"> --}}
@@ -70,7 +71,7 @@
 
                 @foreach ($animals as $animal)
                     <div class="col">
-                        <a href="{{ route('user.animals.show', ['animal' => $animal->id]) }}">
+                        <a href="{{ route('admin.animals.show', ['animal' => $animal->id]) }}">
                             <div class="card">
                                 @if (isset($images_by_animal[$animal->id]))
                                     @foreach ($images_by_animal[$animal->id] as $image)
@@ -150,49 +151,6 @@
 
         </div>
     </div>
-
-
-    {{-- @foreach ($articles as $article)
-                    @foreach ($article->images as $image)
-                        <div class="col">
-                            <div class="card">
-
-                                <img src="{{ $image->filename }}" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">This is a longer card with supporting text below as a natural
-                                        lead-in
-                                        to additional content. This content is a little bit longer.</p>
-                                </div>
-
-                            </div>
-                        </div>
-                    @endforeach
-                @endforeach
-                <div class="col">
-                    <div class="card">
-                        <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-social.png" class="card-img-top"
-                            alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural
-                                lead-in
-                                to additional content.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-social.png" class="card-img-top"
-                            alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural
-                                lead-dsdsdsin
-                                to additional content. This content is a little bit longer.</p>
-                        </div>
-                    </div>
-                </div> --}}
 </div>
 </div>
 </div>

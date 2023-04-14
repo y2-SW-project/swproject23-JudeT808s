@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use App\Models\Day;
 use App\Models\Volunteer;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class VolunteerController extends Controller
 {
     public function create()
     {
         $days = Day::all();
-        return view('volunteers.volunteer-create')->with('days', $days);
+        return view('user.volunteers.volunteer-create')->with('days', $days);
     }
     /**
      * Store a newly created resource in storage.

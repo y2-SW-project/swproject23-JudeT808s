@@ -1,16 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use App\Models\Image;
 use App\Models\animal;
 use App\Models\Species;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use PhpParser\Node\Stmt\TraitUseAdaptation\Alias;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Auth;
 
 class AnimalController extends Controller
 {
@@ -19,8 +22,11 @@ class AnimalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
         $animals = Animal::with('images')->with('species')->get();
 
         $animals_with_images = $animals->filter(function ($animal) {
@@ -37,7 +43,7 @@ class AnimalController extends Controller
             $images_by_animal[$animal->id] = $images;
         }
 
-        return view('welcome', compact('animals', 'images_by_animal'));
+        return view('admin.welcome', compact('animals', 'images_by_animal'));
     }
     /**
      * Show the form for creating a new resource.
@@ -46,8 +52,11 @@ class AnimalController extends Controller
      */
     public function create()
     {
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
+
         $species = Species::get();
-        return view('animals.animal-create')->with('species', $species);
+        return view('admin.animals.animal-create')->with('species', $species);
     }
     /**
      * Store a newly created resource in storage.
@@ -57,7 +66,9 @@ class AnimalController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
+
         $request->validate([
             'name' => 'required',
             'age' => 'required',
@@ -92,7 +103,7 @@ class AnimalController extends Controller
 
         // Render the view with the images
         // Render the view with the animal, images, and species
-        return view('animals.animal', compact('animal', 'images_by_animal'))->with('species', $animal->species);
+        return view('admin.animals.animal', compact('animal', 'images_by_animal'))->with('species', $animal->species);
     }
 
 
@@ -105,7 +116,11 @@ class AnimalController extends Controller
      */
     public function show($id)
     {
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
+
         $animal = Animal::with('species')->findOrFail($id); // Chain 'with' before 'findOrFail'
+        $species = Species::get();
 
         if (!$animal) {
             abort(404);
@@ -120,7 +135,7 @@ class AnimalController extends Controller
         $images_by_animal[$animal->id] = $images;
 
         // Render the view with the images and species
-        return view('animals.animal', compact('animal', 'images_by_animal'));
+        return view('admin.animals.animal', compact('animal', 'images_by_animal'))->with('images', $images)->with('species', $species);
     }
 
 
@@ -136,6 +151,9 @@ class AnimalController extends Controller
      */
     public function edit(Animal $animal)
     {
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
+
         $species = Species::get();
         $animal->load('images');
 
@@ -150,7 +168,7 @@ class AnimalController extends Controller
         // return view('animal-edit', compact('animal', 'image'));
         //->with('animal', $animal);
         // return view('animals.animal-edit')->with('animal', $animal)->with('images_by_animal', $images_by_animal);
-        return view('animals.animal-edit')->with('animal', $animal)->with('images', $images)->with('species', $species);
+        return view('admin.animals.animal-edit')->with('animal', $animal)->with('images', $images)->with('species', $species);
     }
 
     /**
@@ -163,6 +181,9 @@ class AnimalController extends Controller
      */
     public function update(Request $request, animal $animal)
     {
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
+
         $request->validate([
             'name' => 'required',
             'age' => 'required',
@@ -196,7 +217,7 @@ class AnimalController extends Controller
 
         $animals = Animal::get();
         $images_by_animal = Image::whereIn('animal_id', $animals->pluck('id'))->get()->groupBy('animal_id');
-        return view('animals.animal', compact('animal', 'images_by_animal'));
+        return redirect()->route('admin.animals.show', ['animal' => $animal->id]);
     }
 
 
@@ -207,14 +228,20 @@ class AnimalController extends Controller
      */
     public function destroy($id)
     {
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
+
         $animal = animal::findOrFail($id);
         $animal->delete();
-        return redirect()->route('animal.index')
+        return redirect()->route('admin.articles.index')
             ->with('success', 'animal has been deleted successfully!');
     }
 
     public function deleteImage(Animal $animal, Image $image)
     {
+        $user = Auth::user();
+        $user->authorizeRoles('admin');
+
         // Check if the animal and image exist and are related
         if ($animal->images->contains($image)) {
             // Delete the image from storage

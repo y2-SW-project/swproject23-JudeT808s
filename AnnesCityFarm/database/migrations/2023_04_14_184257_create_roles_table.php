@@ -11,18 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('animals', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->bigInteger('age');
             $table->string('description');
-            //One to Many
-            $table->foreignId('admin_id')->constrained('admins');
             $table->timestamps();
-        });
-        Schema::table('images', function (Blueprint $table) {
-            $table->unsignedBigInteger('animal_id')->nullable();
-            $table->foreign('animal_id')->references('id')->on('animals')->onDelete('cascade');
         });
     }
 
@@ -31,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('roles');
     }
 };
