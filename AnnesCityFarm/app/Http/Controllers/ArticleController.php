@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Image;
 use App\Models\Animal;
 use App\Models\Article;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -23,6 +24,7 @@ class ArticleController extends Controller
     {
         $articles = Article::with('images')->get();
         $animals = Animal::with('images')->with('species')->get();
+        $reviews = Review::all();
 
         $articles_with_images = $articles->filter(function ($article) {
             return $article->images->count() > 0;
@@ -52,7 +54,7 @@ class ArticleController extends Controller
         }
         // dd($images_by_animal);
 
-        return view('welcome', compact('articles', 'images_by_article', 'animals', 'images_by_animal'));
+        return view('welcome', compact('articles', 'images_by_article', 'animals', 'images_by_animal', 'reviews'));
     }
 
     /**

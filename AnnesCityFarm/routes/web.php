@@ -1,14 +1,17 @@
 <?php
 
-use App\Http\Controllers\AnimalController;
 use App\Models\User;
 use App\Models\Admin;
-use Faker\Factory as Faker;
 use App\Models\Article;
+use App\Models\Volunteer;
+use Faker\Factory as Faker;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AnimalController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\VolunteerController;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /*
@@ -61,7 +64,8 @@ Route::get('/hi', function () {
 Route::get('/main', function () {
     return view('main');
 });
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\ArticleController::class, 'index'])->name('home');
 Auth::routes();
 Route::get('welcome', function () {
     return view('welcome');
@@ -87,6 +91,12 @@ Route::delete('/article/delete/{id}', [ArticleController::class, 'destroy'])->na
 
 Route::get('/animal/edit/{animal}', [AnimalController::class, 'edit'])->name('animal-edit');
 Route::delete('/animal/delete/{id}', [AnimalController::class, 'destroy'])->name('animal-delete');
+
+//Volunteer
+Route::get('/volunteer-create', [VolunteerController::class, 'create'])->name('volunteer-create');
+Route::post('volunteer.store', [VolunteerController::class, 'store'])->name('volunteer.store');
+Route::post('review.store', [ReviewController::class, 'store'])->name('review.store');
+
 
 
 //Route::resource('/', ArticleController::class);
