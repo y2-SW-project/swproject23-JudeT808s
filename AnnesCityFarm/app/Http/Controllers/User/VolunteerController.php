@@ -6,6 +6,7 @@ use App\Models\Day;
 use App\Models\Volunteer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class VolunteerController extends Controller
 {
@@ -22,13 +23,15 @@ class VolunteerController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+        $user->authorizeRoles('user');
+
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
             'address' => 'required',
             'age' => 'required',
             'phoneNo' => 'required',
-
         ]);
 
 
@@ -39,7 +42,7 @@ class VolunteerController extends Controller
         $volunteer->address = $request->input('address');
         $volunteer->age = $request->input('age');
         $volunteer->phoneNo = $request->input('phoneNo');
-        $volunteer->user_id = '1';
+        $volunteer->user_id = $user->id;
         $volunteer->save();
 
         $volunteer->days()->attach($request->days);

@@ -17,7 +17,9 @@ return new class extends Migration
             $table->bigInteger('age');
             $table->string('description');
             //One to Many
-            $table->foreignId('admin_id')->constrained('admins');
+            $table->foreignId('admin_id')->constrained('users');
+
+            // $table->foreignId('admin_id')->constrained('admins');
             $table->timestamps();
         });
         Schema::table('images', function (Blueprint $table) {

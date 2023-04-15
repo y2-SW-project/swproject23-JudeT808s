@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         // \App\Models\Species::factory(5)->create();
         \App\Models\User::factory(1)->create();
-        \App\Models\Admin::factory(1)->create();
         \App\Models\Review::factory(5)->create();
         $this->call(DaySeeder::class);
         \App\Models\Image::factory(10)->create();

@@ -25,8 +25,8 @@ class ArticleFactory extends Factory
             'title' => $this->faker->name,
             'subtitle' => $this->faker->name,
             'publish_date' => $this->faker->date,
-            'admin_id' => Admin::pluck('id')->random(),
-           // 'species_id' => Species::factory()
+            'admin_id' => '1',
+            // 'species_id' => Species::factory()
         ];
     }
 }

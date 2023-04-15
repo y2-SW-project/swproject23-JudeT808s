@@ -32,6 +32,8 @@ class HomeController extends Controller
             $home = 'admin.articles.index';
         } else if ($user->hasRole('user')) {
             $home = 'user.articles.index';
+        } else {
+            $home = 'register';
         }
         return redirect()->route($home);
     }

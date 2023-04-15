@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
@@ -20,6 +21,8 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+        $user->authorizeRoles('user');
         $request->validate([
             'name' => 'required',
             'stars' => 'required',
@@ -30,7 +33,7 @@ class ReviewController extends Controller
         $review->name = $request->input('name');
         $review->stars = $request->input('stars');
         $review->body = $request->input('body');
-        $review->user_id = '1';
+        $review->user_id = $user->id;
         $review->save();
 
         // Render the view with the images

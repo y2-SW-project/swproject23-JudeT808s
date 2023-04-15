@@ -95,7 +95,7 @@ class ArticleController extends Controller
         $article->title = $request->input('title');
         $article->subtitle = $request->input('subtitle');
         $article->publish_date = $request->input('publish_date');
-        $article->admin_id = '1';
+        $article->admin_id = $user->id;
         $article->save();
 
         $image = $request->file('image');
@@ -202,7 +202,7 @@ class ArticleController extends Controller
             'title' => $request->title,
             'subtitle' => $request->subtitle,
             'publish_date' => $request->publish_date,
-            'admin_id' => '1',
+            'admin_id' => $user->id,
         ]);
 
         Log::debug('Update method called for article ID ' . $article->id);

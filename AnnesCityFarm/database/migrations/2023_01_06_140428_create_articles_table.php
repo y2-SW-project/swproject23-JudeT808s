@@ -16,9 +16,10 @@ return new class extends Migration
             $table->string('title');
             $table->string('subtitle');
             $table->date('publish_date');
-            $table->foreignId('admin_id')->constrained('admins');
-            $table->timestamps();
+            $table->foreignId('admin_id')->constrained('users');
 
+            // $table->foreignId('admin_id')->constrained('admins');
+            $table->timestamps();
         });
         Schema::table('images', function (Blueprint $table) {
             $table->unsignedBigInteger('article_id')->nullable();

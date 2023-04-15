@@ -80,7 +80,7 @@ class AnimalController extends Controller
         $animal->age = $request->input('age');
         $animal->description = $request->input('description');
         $animal->species_id = $request->input('species_id');
-        $animal->admin_id = '1';
+        $animal->admin_id = $user->id;
         $animal->save();
         $image = $request->file('image');
         $filename = time() . '.' . $image->getClientOriginalExtension();
@@ -195,7 +195,7 @@ class AnimalController extends Controller
             'name' => $request->name,
             'age' => $request->age,
             'species_id' => $request->species_id,
-            'admin_id' => '1',
+            'admin_id' => $user->id,
         ]);
 
         Log::debug('Update method called for animal ID ' . $animal->id);

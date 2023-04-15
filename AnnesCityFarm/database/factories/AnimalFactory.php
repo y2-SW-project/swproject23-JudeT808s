@@ -8,9 +8,11 @@ use App\Models\Article;
 use App\Models\Species;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Article>
  */
+
 class AnimalFactory extends Factory
 {
     protected $model = Animal::class;
@@ -28,7 +30,7 @@ class AnimalFactory extends Factory
             'name' => $this->faker->name,
             'age' => $this->faker->randomDigit,
             'description' => $this->faker->text,
-            'admin_id' => Admin::pluck('id')->random(),
+            'admin_id' => '1',
             'species_id' => Species::factory()->create()->id
         ];
     }
