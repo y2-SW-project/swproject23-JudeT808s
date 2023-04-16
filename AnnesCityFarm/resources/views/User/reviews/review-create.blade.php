@@ -1,7 +1,5 @@
 @extends('layouts.app')
-'name' => 'required',
-'stars' => 'required',
-'body' => 'required',
+
 @section('content')
     <div class="container">
         <h1>Create Volunteer</h1>

@@ -150,49 +150,6 @@
 
         </div>
     </div>
-
-
-    {{-- @foreach ($articles as $article)
-                    @foreach ($article->images as $image)
-                        <div class="col">
-                            <div class="card">
-
-                                <img src="{{ $image->filename }}" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">This is a longer card with supporting text below as a natural
-                                        lead-in
-                                        to additional content. This content is a little bit longer.</p>
-                                </div>
-
-                            </div>
-                        </div>
-                    @endforeach
-                @endforeach
-                <div class="col">
-                    <div class="card">
-                        <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-social.png" class="card-img-top"
-                            alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural
-                                lead-in
-                                to additional content.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-social.png" class="card-img-top"
-                            alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural
-                                lead-dsdsdsin
-                                to additional content. This content is a little bit longer.</p>
-                        </div>
-                    </div>
-                </div> --}}
 </div>
 </div>
 </div>
