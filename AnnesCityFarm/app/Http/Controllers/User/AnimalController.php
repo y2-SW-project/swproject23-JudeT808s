@@ -27,7 +27,6 @@ class AnimalController extends Controller
         $animals_with_images = $animals->filter(function ($animal) {
             return $animal->images->count() > 0;
         });
-
         $images_by_animal = [];
 
         foreach ($animals_with_images as $animal) {
@@ -38,7 +37,7 @@ class AnimalController extends Controller
             $images_by_animal[$animal->id] = $images;
         }
 
-        return view('welcome', compact('animals', 'images_by_animal'));
+        return view('gallery', compact('animals', 'images_by_animal'));
     }
     /**
      * Show the form for creating a new resource.
@@ -56,20 +55,20 @@ class AnimalController extends Controller
     {
         $animal = Animal::with('species')->findOrFail($id); // Chain 'with' before 'findOrFail'
         $species = Species::get();
+        $species_id = $animal->species_id;
+        $related = Animal::where('species_id', $species_id)->take(3)->get();
 
-        if (!$animal) {
-            abort(404);
-        }
-
+        // Retrieve articles by category ID with eager loading
         $animal->load('images');
-
+        
         $images = Image::whereHasMorph('imageable', [$animal->getMorphClass()], function ($query) use ($animal) {
             $query->where('imageable_id', $animal->getKey());
         })->get();
 
         $images_by_animal[$animal->id] = $images;
+        
 
         // Render the view with the images and species
-        return view('user.animals.animal', compact('animal', 'images_by_animal'))->with('images', $images)->with('species', $species);
+        return view('user.animals.animal', compact('animal', 'images_by_animal', 'related'))->with('images', $images)->with('species', $species);
     }
 }

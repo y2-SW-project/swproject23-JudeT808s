@@ -16,14 +16,14 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call(RoleSeeder::class);
-        $this->call(UserSeeder::class);
+        // $this->call(UserSeeder::class);
         // \App\Models\Species::factory(5)->create();
         \App\Models\User::factory(1)->create();
         \App\Models\Review::factory(5)->create();
         $this->call(DaySeeder::class);
-        \App\Models\Image::factory(10)->create();
+        \App\Models\Image::factory(18)->create();
         // \App\Models\Article::factory(0)->create();
-        $this->call(SpeciesSeeder::class);
+        // $this->call(SpeciesSeeder::class);
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

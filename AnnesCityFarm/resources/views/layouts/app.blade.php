@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- jQuery library -->
 
@@ -15,7 +15,15 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,400;0,500;0,800;1,400&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <!-- MDB CSS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -37,9 +45,25 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+                        @php $user = Auth::user() @endphp
 
+                        @if ($user->check('admin'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.articles.create') }}">Create Article</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.animals.create') }}">Create Animal</a>
+                            </li>
+                        @else
+                            <!-- Link for regular users -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('user.volunteers.create') }}">Volunteer</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="{{ route('gallery') }}">Gallery</a>
+                            </li>
+                        @endif
                     </ul>
-
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->

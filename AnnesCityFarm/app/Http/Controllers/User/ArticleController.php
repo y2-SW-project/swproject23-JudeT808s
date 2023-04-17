@@ -24,9 +24,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::with('images')->get();
-        $animals = Animal::with('images')->with('species')->get();
-        $reviews = Review::all();
+        $articles = Article::orderBy('created_at', 'desc')->take(3)->get();
+        $animals = Animal::with('images')->with('species')->orderBy('created_at', 'desc')->take(6)->get();
+        $reviews = Review::paginate(3);
 
         $articles_with_images = $articles->filter(function ($article) {
             return $article->images->count() > 0;
@@ -76,11 +76,11 @@ class ArticleController extends Controller
     public function show($id)
     {
         $article = Article::where('id', $id)->firstOrFail();
-
+        $suggested = Article::where("species_id" == $article->species_id);
         if (!$article) {
             abort(404);
         }
-
+        dd($suggested);
         $article->load('images');
 
         $images = Image::whereHasMorph('imageable', [$article->getMorphClass()], function ($query) use ($article) {

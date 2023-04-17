@@ -84,8 +84,6 @@
                                 @endforeach
                             @endif
 
-
-
                             <div class="card-body">
                                 <h5 class="card-title">{{ $animal->name }}</h5>
                                 <p class="card-text">{{ $animal->age }}</p>

@@ -25,8 +25,6 @@ class ArticleController extends Controller
      */
     public function index()
     {
-
-
         $articles = Article::with('images')->get();
         $animals = Animal::with('images')->with('species')->get();
         $reviews = Review::all();
