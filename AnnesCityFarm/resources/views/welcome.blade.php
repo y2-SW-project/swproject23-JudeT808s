@@ -192,38 +192,36 @@
 
 </div>
 </div>
-
+<div class="container">
 <div class="row mx-5 mt-3">
 <div class="col-6">
-<h3>Find us</h3>
+    <h3>Find us</h3>
 </div>
 <div class="col-6">
-<h3 class="text-center">Address</h3>
+    <h3 class="text-center">Address</h3>
 </div>
 <div class="col-6 ">
-<iframe
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d353.8323628000281!2d-6.175997650232924!3d53.373843952314395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48670f37483aadd5%3A0x4549ea2f058de263!2sSt.%20Anne&#39;s%20City%20Farm%20and%20Ecology%20Centre!5e0!3m2!1sen!2sie!4v1681648475905!5m2!1sen!2sie"
-    allowfullscreen="" loading="lazy" width="100%" height="100%"
-    referrerpolicy="no-referrer-when-downgrade"></iframe>
-<p class="text-center">
-    Mon: Closed<br>
-    Tue: Closed<br>
-    Wed: Closed<br>
-    Thu: Closed<br>
-    Fri: Closed<br>
-    Sat: 10:00 AM 2:00 PM<br>
-    Sun: 10:00 AM – 2:00 PM<br>
+    <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d353.8323628000281!2d-6.175997650232924!3d53.373843952314395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48670f37483aadd5%3A0x4549ea2f058de263!2sSt.%20Anne&#39;s%20City%20Farm%20and%20Ecology%20Centre!5e0!3m2!1sen!2sie!4v1681648475905!5m2!1sen!2sie"
+        allowfullscreen="" loading="lazy" width="100%" height="100%"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <p class="text-center">
+        Mon: Closed<br>
+        Tue: Closed<br>
+        Wed: Closed<br>
+        Thu: Closed<br>
+        Fri: Closed<br>
+        Sat: 10:00 AM to 2:00 PM<br>
+        Sun: 10:00 AM to 2:00 PM<br>
 </div>
 <div class="col-6  d-flex align-items-center justify-content-center ">
-<h5>All Saints Rd Clontarf East<br> Dublin 5<br> D05 R8P7
+    <h5>All Saints Rd Clontarf East<br> Dublin 5<br> D05 R8P7
 </div>
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
+
+
 <!-- Add this code to handle modal functionality -->
 <script>
     $(document).ready(function() {
@@ -236,4 +234,3 @@
         });
     });
 </script>
-@endsection
