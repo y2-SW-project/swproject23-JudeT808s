@@ -22,6 +22,7 @@
         rel="stylesheet">
     <!-- MDB CSS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/d9537ccec9.js" crossorigin="anonymous"></script>
 
 
 
@@ -112,17 +113,42 @@
         <footer class="py-3 bg-gradient bg-primary sticky-bottom">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
+                        <h5 class="text-light">Contact us</h5>
+                        <li class="nav-item text-light">
+                            All Saints Rd Clontarf East
+                            Dublin 5
+                            D05 R8P7
+                        </li>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-light">Links</h5>
                         <li class="nav-item text-light">
                             <a class="nav-link" href="{{ route('info') }}">About us</a>
                         </li>
                         <li class="nav-item text-light">
                             <a class="nav-link" href="{{ route('info') }}">Calendar</a>
                         </li>
+                        <li class="nav-item text-light">
+                            <a class="nav-link" href="{{ route('info') }}">Donate</a>
+                        </li>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
+                        <h5 class="text-light">Follow us on</h5>
+                        <ul class="d-flex">
+                            <li class="nav-item text-light">
+                                <i class="fa-brands fa-instagram"></i>
+                            </li>
+                            <li class="nav-item text-light">
+                                <i class="fa-brands fa-twitter"></i>
+                            </li>
+                            <li class="nav-item text-light">
+                                <i class="fa-brands fa-facebook"></i>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-flex-end">
                         <p class="text-white">&copy; 2023 Jude McCrea. All rights reserved.</p>
-
                     </div>
                 </div>
 
