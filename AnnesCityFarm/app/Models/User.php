@@ -3,10 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Role;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -36,10 +37,12 @@ class User extends Authenticatable
             // Retrieve the default role
             $defaultRole = Role::where('name', 'user')->first();
 
-            // Attach the default role to the user
-            // $user->roles()->attach($defaultRole->id);
+
+
+            $user->roles()->attach($defaultRole->id);
         });
     }
+
     /**
      * The attributes that should be hidden for serialization.
      *

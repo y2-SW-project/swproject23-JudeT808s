@@ -2,10 +2,11 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginTest extends TestCase
 {
@@ -21,6 +22,12 @@ class LoginTest extends TestCase
             'password' => bcrypt('password'),
         ]);
 
+        // Retrieve the default role
+        $defaultRole = Role::where('name', 'user')->first();
+
+        // Attach the default role to the user
+        $user->roles()->attach($defaultRole->id);
+
         // Test login functionality
         $response = $this->actingAs($user)->post('/login', [
             'email' => $user->email,
@@ -30,14 +37,24 @@ class LoginTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
+
     public function test_user_cannot_login_with_invalid_credentials()
     {
+
         // Arrange
         $user = User::create([
             'name' => 'Joe',
-            'email' => 'user@example',
+            'email' => 'user@example.com', 
             'password' => bcrypt('password'),
+            'id' => '1',
         ]);
+        
+        // Retrieve the default role
+        $defaultRole = Role::where('name', 'user')->first();
+
+        // Attach the default role to the user
+        $user->roles()->attach($defaultRole->id);
+
 
         // Act
         $response = $this->post('/login', [
@@ -57,7 +74,15 @@ class LoginTest extends TestCase
             'name' => 'Joe',
             'email' => 'user@example.com',
             'password' => bcrypt('password'),
+            'id' => '1',
         ]);
+        // Retrieve the default role
+        $defaultRole = Role::where('name', 'user')->first();
+
+        // Attach the default role to the user
+        $user->roles()->attach($defaultRole->id);
+
+        // Attach the default role to the user
 
         $this->actingAs($user); // Authenticate the user
 
