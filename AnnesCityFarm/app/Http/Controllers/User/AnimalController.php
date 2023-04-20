@@ -71,4 +71,14 @@ class AnimalController extends Controller
         // Render the view with the images and species
         return view('user.animals.animal', compact('animal', 'images_by_animal', 'related'))->with('images', $images)->with('species', $species);
     }
+    public function search(Request $request){
+        $search = $request['search'] ?? "";
+        if($search != ""){
+            $animals = Animal::where('name', '=', $search)->get();
+        }else{
+            $animals = Animal::all();
+        }
+        $data = compact('animals', 'search');
+        return view ('animal.search')->with($data);
+    }
 }

@@ -66,6 +66,13 @@
                 </ul>
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ms-auto">
+                    <form action="">
+                        <div class="form-group">
+                            <input type="text" name="" id="" class="form-control"
+                                placeholder="Search">
+                        </div>
+                        <button class="btn btn-primary">Search</button>
+                    </form>
                     <!-- Authentication Links -->
                     @guest
                         @if (Route::has('login'))
