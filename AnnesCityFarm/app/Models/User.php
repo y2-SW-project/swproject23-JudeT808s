@@ -37,7 +37,7 @@ class User extends Authenticatable
             $defaultRole = Role::where('name', 'user')->first();
 
             // Attach the default role to the user
-            $user->roles()->attach($defaultRole->id);
+            // $user->roles()->attach($defaultRole->id);
         });
     }
     /**
