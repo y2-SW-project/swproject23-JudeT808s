@@ -85,9 +85,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('we
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('welcome');
 Route::get('/search', [SearchController::class, 'search']);
 
-// Route::get('/', [AdminArticleController::class, 'index'])->name('admin.articles.index');
-// Route::get('', [UserAnimalController::class, 'search']);
-// Resource routes for articles
+
 Route::resource('/admin/article', AdminArticleController::class)->middleware(['auth'])->names('admin.articles');
 Route::resource('/user/article', UserArticleController::class)->middleware(['auth'])->names('user.articles')->only(['index', 'show']);
 

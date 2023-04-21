@@ -72,7 +72,8 @@
                     <form action="/search" method="GET">
                         @csrf
                         <div class="input-group">
-                            <input type="text" name="q" class="form-control" placeholder="Search">
+                            <input type="text" name="q" class="form-control"
+                                placeholder="Search by animal name">
                             <button type="submit" class="btn btn-primary">Search</button>
                         </div>
                     </form>
@@ -122,7 +123,7 @@
         <main class="py-4">
             @yield('content')
         </main>
-        <footer class="py-3 bg-gradient bg-primary sticky-bottom">
+        <footer class="py-3 bg-gradient bg-primary fixed-bottom">
             <div class="container">
                 <div class="row">
                     <div class="col-md-3">

@@ -6,30 +6,30 @@
             <div class="col-lg-6">
                 <div class="card">
                     <div class="card-body">
-                        <form action="/donate" method="post">
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="amount">Donation Amount</label>
-                                <input type="number" class="form-control" id="amount" name="amount" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="payment-method">Payment Method</label>
-                                <select class="form-control" id="payment-method" name="payment-method" required>
-                                    <option value="credit-card">Credit Card</option>
-                                    <option value="paypal">PayPal</option>
-                                    <option value="bank-transfer">Bank Transfer</option>
-                                </select>
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Donate</button>
-                            </div>
+                        {{-- <form action="/donate" method="post"> --}}
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Donation Amount</label>
+                            <input type="number" class="form-control" id="amount" name="amount" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="payment-method">Payment Method</label>
+                            <select class="form-control" id="payment-method" name="payment-method" required>
+                                <option value="credit-card">Credit Card</option>
+                                <option value="paypal">PayPal</option>
+                                <option value="bank-transfer">Bank Transfer</option>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Donate</button>
+                        </div>
                         </form>
                     </div>
                 </div>

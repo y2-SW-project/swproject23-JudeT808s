@@ -10,6 +10,7 @@ ini_set('display_errors', 1);
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Article;
+use App\Models\Review;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -25,51 +26,52 @@ class CRUDTest extends TestCase
      *
      * @return void
      */
-    public function test_can_create_article()
+    public function test_can_create_review()
     {
         ob_start();
 
-        Storage::fake('public');
+        $user = User::create([
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'password' => bcrypt('password'),
+        ]);
 
         $data = [
-            'title' => $this->faker->sentence,
-            'subtitle' => $this->faker->sentence,
-            'publish_date' => $this->faker->date(),
-            'image' => UploadedFile::fake()->image('article.jpg'),
+            'name' => $this->faker->name,
+            'stars' => $this->faker->numberBetween(0, 5),
+            'body' => $this->faker->text,
+            'user_id' => $user->id,
         ];
 
-        $response = $this->post(route('admin.articles.store'), $data);
+        $response = $this->post(route('user.reviews.store'), $data);
 
         $response->assertStatus(201);
         $response->assertJsonStructure([
-            'id', 'title', 'subtitle', 'publish_date', 'created_at', 'updated_at',
+            'name', 'stars', 'body', 'created_at', 'updated_at',
         ]);
         $response->assertJson([
-            'title' => $data['title'],
-            'subtitle' => $data['subtitle'],
-            'publish_date' => $data['publish_date'],
+            'name' => $data['name'],
+            'stars' => $data['stars'],
+            'body' => $data['body'],
         ]);
 
-        $article = Article::first();
-        $this->assertNotNull($article);
+        $review = Review::first();
+        $this->assertNotNull($review);
 
-        $this->assertEquals($data['title'], $article->title);
-        $this->assertEquals($data['subtitle'], $article->subtitle);
-        $this->assertEquals($data['publish_date'], $article->publish_date);
+        $this->assertEquals($data['name'], $review->name);
+        $this->assertEquals($data['stars'], $review->stars);
+        $this->assertEquals($data['body'], $review->body);
 
-        $image = $article->images->first();
-        $this->assertNotNull($image);
 
-        Storage::disk('public')->assertExists($image->path);
         ob_end_clean();
     }
 
     /**
-     * Test reading/viewing an article
+     * Test reading/viewing an re
      *
      * @return void
      */
-    public function test_can_read_article()
+    public function test_can_read_review()
     {
         ob_start();
 
@@ -80,29 +82,28 @@ class CRUDTest extends TestCase
             'password' => bcrypt('password'),
         ]);
 
-        // Create an article belonging to the user
-        $article = Article::create([
-            'title' => 'Test Article',
+        // Create an re belonging to the user
+        $review = Review::create([
+            'name' => 'Test review',
+            'stars' => '3',
             'body' => 'Test Body',
-            'user_id' => $user->id,
             'publish_date' => now(),
-            'image' => UploadedFile::fake()->image('test.jpg'),
         ]);
 
-        // Make a GET request to view the article
-        $response = $this->get(route('admin.articles.article', ['article' => $article->id]));
+        // Make a GET request to view the review
+        $response = $this->get(route('user.reviews.review', ['review' => $review->id]));
 
         // Assert that the response is successful and returns the correct view
         $response->assertSuccessful();
-        $response->assertViewIs('user.articles.show');
+        $response->assertViewIs('user.reviews.review');
 
         // Assert that the article and the user who created it are passed to the view
-        $response->assertViewHas('article', $article);
+        $response->assertViewHas('review', $review);
         $response->assertViewHas('user', $user);
         ob_end_clean();
     }
 
-    public function test_can_update_article()
+    public function test_can_update_review()
     {
         ob_start();
 
@@ -114,29 +115,28 @@ class CRUDTest extends TestCase
         ]);
 
         // Create an article belonging to the user
-        $article = Article::create([
-            'title' => 'Test Article',
+        $review = Review::create([
+            'name' => 'Test review',
+            'stars' => '3',
             'body' => 'Test Body',
-            'user_id' => $user->id,
             'publish_date' => now(),
-            'image' => UploadedFile::fake()->image('test.jpg'),
         ]);
 
         // Make a PUT request to update the article
-        $response = $this->put(route('admin.articles.update', ['article' => $article->id]), [
-            'title' => 'New Title',
-            'body' => 'New Body',
+        $response = $this->put(route('user.reviews.update', ['review' => $review->id]), [
+            'name' => 'Test review',
+            'body' => 'Test Body',
         ]);
 
         // Reload the article from the database
-        $article->refresh();
+        $review->refresh();
 
         // Assert that the response is successful
         $response->assertSuccessful();
 
         // Assert that the article was updated with the new values
-        $this->assertEquals('New Title', $article->title);
-        $this->assertEquals('New Body', $article->body);
+        $this->assertEquals('Test review', $review->name);
+        $this->assertEquals('Test Body', $review->body);
         ob_end_clean();
     }
 

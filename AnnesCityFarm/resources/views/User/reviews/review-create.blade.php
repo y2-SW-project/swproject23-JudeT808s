@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container">
-        <h1>Create Volunteer</h1>
-        <form method="POST" action="{{ route('volunteer.store') }}" enctype="multipart/form-data">
+        <h1>Create Review</h1>
+        <form method="POST" action="{{ route('review.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="name">Name</label>
@@ -11,7 +11,10 @@
             </div>
             <div class="form-group">
                 <label for="stars">stars</label>
-                <input type="text" name="stars" id="stars" class="form-control">
+                @for ($i = 0; $i < 5; $i++)
+                    <input type="radio" name="stars" value={{ $i + 1 }}>
+                @endfor
+
             </div>
             <div class="form-group">
                 <label for="body">body</label>
@@ -20,5 +23,4 @@
 
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-    </div>
-@endsection
+    @endsection

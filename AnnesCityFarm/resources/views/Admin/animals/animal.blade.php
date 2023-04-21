@@ -73,6 +73,5 @@
             $('.ecommerce-gallery-main-img').attr('src', src);
         });
     </script>
-@endsection
 
 @endsection

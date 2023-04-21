@@ -103,7 +103,8 @@ class AnimalController extends Controller
 
         // Render the view with the images
         // Render the view with the animal, images, and species
-        return view('admin.animals.animal', compact('animal', 'images_by_animal'))->with('species', $animal->species);
+        // return view('admin.animals.animal', compact('animal', 'images_by_animal'))->with('species', $animal->species);
+        return redirect()->route('admin.animals.show', ['animal' => $animal->id]);
     }
 
 
@@ -135,12 +136,6 @@ class AnimalController extends Controller
         // Render the view with the images and species
         return view('user.animals.animal', compact('animal', 'images_by_animal', 'related'))->with('images', $images)->with('species', $species);
     }
-
-
-
-    // $animal = animal::where('$animals->id =1');
-
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -177,7 +172,7 @@ class AnimalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, animal $animal)
+    public function update(Request $request, Animal $animal)
     {
         $user = Auth::user();
         $user->authorizeRoles('admin');
