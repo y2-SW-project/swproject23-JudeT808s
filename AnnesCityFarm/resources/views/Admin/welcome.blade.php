@@ -193,9 +193,8 @@
 @endforeach
 
 </div>
-<div class="container-lg bg-image">
-<h2>Like what you see?</h2>
-<div class="mask mask-custom">
+<div class="container-lg bg-image mt-5">
+<div class="mask mask-custom mt-5">
 <img src="https://assets.farmsanctuary.org/content/uploads/2020/05/27054129/2010_07-31_FSNY_Hoe_Down_Guest_with_Pig_3668_CREDIT_Jo-Anne_McArthur-1-1600x1065.jpg"
     alt="" class="img-fluid">
 <div class="text-container">

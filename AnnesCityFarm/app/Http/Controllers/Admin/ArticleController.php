@@ -25,9 +25,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::with('images')->get();
-        $animals = Animal::with('images')->with('species')->get();
-        $reviews = Review::all();
+        $articles = Article::orderBy('created_at', 'desc')->take(3)->get();
+        $animals = Animal::with('images')->with('species')->orderBy('created_at', 'desc')->take(6)->get();
+        $reviews = Review::paginate(3);
 
         $articles_with_images = $articles->filter(function ($article) {
             return $article->images->count() > 0;
@@ -57,8 +57,7 @@ class ArticleController extends Controller
         }
         // dd($images_by_animal);
 
-        return view('admin.welcome', compact('articles', 'images_by_article', 'animals', 'images_by_animal', 'reviews'));
-        // return view('admin.welcome', compact('articles', 'images_by_article', 'animals', 'images_by_animal', 'reviews'));
+        return view('welcome', compact('articles', 'images_by_article', 'animals', 'images_by_animal', 'reviews'));
     }
 
     /**

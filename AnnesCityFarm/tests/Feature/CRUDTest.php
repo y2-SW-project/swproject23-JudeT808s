@@ -87,7 +87,7 @@ class CRUDTest extends TestCase
             'name' => 'Test review',
             'stars' => '3',
             'body' => 'Test Body',
-            'publish_date' => now(),
+            'user_id' => $user->id,
         ]);
 
         // Make a GET request to view the review
@@ -119,7 +119,7 @@ class CRUDTest extends TestCase
             'name' => 'Test review',
             'stars' => '3',
             'body' => 'Test Body',
-            'publish_date' => now(),
+            'user_id' => $user->id,
         ]);
 
         // Make a PUT request to update the article
