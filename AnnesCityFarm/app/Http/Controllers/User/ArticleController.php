@@ -76,11 +76,10 @@ class ArticleController extends Controller
     public function show($id)
     {
         $article = Article::where('id', $id)->firstOrFail();
-        $suggested = Article::where("species_id" == $article->species_id);
+        $suggested = Article::where("species_id" == $article->species_id && "id" !== $article->id);
         if (!$article) {
             abort(404);
         }
-        dd($suggested);
         $article->load('images');
 
         $images = Image::whereHasMorph('imageable', [$article->getMorphClass()], function ($query) use ($article) {

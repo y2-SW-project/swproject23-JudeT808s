@@ -33,6 +33,19 @@ li{
     height:130% !important; 
     width:100%;
 }
+.mask {
+  position: relative;
+}
+
+.text-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  font-size: 2rem;
+}
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
 a{

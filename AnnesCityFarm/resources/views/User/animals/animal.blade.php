@@ -1,9 +1,7 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container-lg">
-
+    <div class="container-lg px-5">
         <div class="row shadow-5">
-
             <div class="col-4">
                 @if (isset($images_by_animal[$animal->id]))
                     @foreach ($images_by_animal[$animal->id] as $index => $image)

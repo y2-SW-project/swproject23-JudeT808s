@@ -25,27 +25,26 @@
                     @if (Str::startsWith($image->type, 'image/'))
                         <img src="{{ asset('storage/' . $image->path) }}" alt="" class="img-fluid">
                     @else
-                        <img src="{{ $image->filename }}" alt="{{ $image->filename }}" class="img-fluid">
+                        <img src="{{ $image->filename }}" alt="{{ $image->filename }}" class="img-fluid w-100">
                     @break
                 @endif
             @endforeach
         </a>
     </div>
     <div class="col-4 mb-3">
-        <div class="row ">
-            <div class="col-12">
-            @elseif($loop->index < 6)
-                <a href="{{ route('user.animals.show', ['animal' => $animal->id]) }}">
-                    @foreach ($images_by_animal[$animal->id] as $image)
-                        @if (Str::startsWith($image->type, 'image/'))
-                            <img src="{{ asset('storage/' . $image->path) }}" alt="" class="img-fluid">
-                        @else
-                            <img src="{{ $image->filename }}" alt="{{ $image->filename }}" class="img-fluid">
-                        @break
+    @elseif($loop->index < 6)
+        <div class="col-12 mt-2">
 
-        </div>
-        @endif
+            <a href="{{ route('user.animals.show', ['animal' => $animal->id]) }}">
+                @foreach ($images_by_animal[$animal->id] as $image)
+                    @if (Str::startsWith($image->type, 'image/'))
+                        <img src="{{ asset('storage/' . $image->path) }}" alt="" class="img-fluid">
+                    @else
+                        <img src="{{ $image->filename }}" alt="{{ $image->filename }}" class="img-fluid">
+                    @break
+
     </div>
+    @endif
 </div>
 @endforeach
 </div>

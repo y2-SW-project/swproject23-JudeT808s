@@ -58,6 +58,7 @@ class ArticleController extends Controller
         // dd($images_by_animal);
 
         return view('admin.welcome', compact('articles', 'images_by_article', 'animals', 'images_by_animal', 'reviews'));
+        // return view('admin.welcome', compact('articles', 'images_by_article', 'animals', 'images_by_animal', 'reviews'));
     }
 
     /**

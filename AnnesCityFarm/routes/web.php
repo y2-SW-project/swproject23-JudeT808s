@@ -1,16 +1,17 @@
 <?php
 
-use App\Http\Controllers\Admin\AnimalController as AdminAnimalController;
-use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
-use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
-use App\Http\Controllers\Admin\VolunteerController as AdminVolunteerController;
-use App\Http\Controllers\User\AnimalController as UserAnimalController;
-use App\Http\Controllers\User\ReviewController as UserReviewController;
-use App\Http\Controllers\User\ArticleController as UserArticleController;
-use App\Http\Controllers\User\VolunteerController as UserVolunteerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\User\AnimalController as UserAnimalController;
+use App\Http\Controllers\User\ReviewController as UserReviewController;
+use App\Http\Controllers\Admin\AnimalController as AdminAnimalController;
+use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
+use App\Http\Controllers\User\ArticleController as UserArticleController;
+use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
+use App\Http\Controllers\User\VolunteerController as UserVolunteerController;
+use App\Http\Controllers\Admin\VolunteerController as AdminVolunteerController;
 
 
 /*
@@ -69,16 +70,23 @@ Auth::routes();
 Route::get('welcome', function () {
     return view('welcome');
 });
+Route::get('donate', function () {
+    return view('donate');
+})->name('donate');
+
 Route::get('/about', function () {
     return view('about');
 })->name('info');
 
 Route::get('gallery', [App\Http\Controllers\User\AnimalController::class, 'index'])->name('gallery');
 
+
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('welcome');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('welcome');
+Route::get('/search', [SearchController::class, 'search']);
+
 // Route::get('/', [AdminArticleController::class, 'index'])->name('admin.articles.index');
-Route::get('/', [UserAnimalController::class, 'search']);
+// Route::get('', [UserAnimalController::class, 'search']);
 // Resource routes for articles
 Route::resource('/admin/article', AdminArticleController::class)->middleware(['auth'])->names('admin.articles');
 Route::resource('/user/article', UserArticleController::class)->middleware(['auth'])->names('user.articles')->only(['index', 'show']);

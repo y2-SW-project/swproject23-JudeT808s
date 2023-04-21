@@ -116,16 +116,13 @@ class AnimalController extends Controller
      */
     public function show($id)
     {
-        $user = Auth::user();
-        $user->authorizeRoles('admin');
-
         $animal = Animal::with('species')->findOrFail($id); // Chain 'with' before 'findOrFail'
         $species = Species::get();
+        $species_id = $animal->species_id;
+        $animal_id = $animal->id;
+        $related = Animal::where('species_id', $species_id)->where('id', '<>', $id)->take(3)->get();
 
-        if (!$animal) {
-            abort(404);
-        }
-
+        // Retrieve articles by category ID with eager loading
         $animal->load('images');
 
         $images = Image::whereHasMorph('imageable', [$animal->getMorphClass()], function ($query) use ($animal) {
@@ -134,8 +131,9 @@ class AnimalController extends Controller
 
         $images_by_animal[$animal->id] = $images;
 
+
         // Render the view with the images and species
-        return view('admin.animals.animal', compact('animal', 'images_by_animal'))->with('images', $images)->with('species', $species);
+        return view('user.animals.animal', compact('animal', 'images_by_animal', 'related'))->with('images', $images)->with('species', $species);
     }
 
 
