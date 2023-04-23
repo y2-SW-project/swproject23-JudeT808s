@@ -28,13 +28,13 @@ class AnimalController extends Controller
         $user = Auth::user();
         $user->authorizeRoles('admin');
         $animals = Animal::with('images')->with('species')->get();
-
+        //Only fill array with an animal that has images
         $animals_with_images = $animals->filter(function ($animal) {
             return $animal->images->count() > 0;
         });
-
+        //Instantiate array
         $images_by_animal = [];
-
+        //Loops through all animals with images that are morphed to specific animal
         foreach ($animals_with_images as $animal) {
             $images = Image::whereHasMorph('imageable', [$animal->getMorphClass()], function ($query) use ($animal) {
                 $query->where('imageable_id', $animal->getKey());
@@ -94,16 +94,14 @@ class AnimalController extends Controller
         $imageModel->imageable_id = $animal->id; // Set the imageable_id to the id of the morphable model
         $imageModel->save();
 
-
+        //Sets image to morph to Animal class 
         $images = Image::whereHasMorph('imageable', [$animal->getMorphClass()], function ($query) use ($animal) {
+            //saving the animal id as the imageable_id
             $query->where('imageable_id', $animal->getKey());
         })->get();
+        
         $images_by_animal[$animal->id] = $images;
-
-
-        // Render the view with the images
-        // Render the view with the animal, images, and species
-        // return view('admin.animals.animal', compact('animal', 'images_by_animal'))->with('species', $animal->species);
+        //Redirects to show function passing the new created animal id
         return redirect()->route('admin.animals.show', ['animal' => $animal->id]);
     }
 
@@ -133,8 +131,8 @@ class AnimalController extends Controller
         $images_by_animal[$animal->id] = $images;
 
 
-        // Render the view with the images and species
-        return view('user.animals.animal', compact('animal', 'images_by_animal', 'related'))->with('images', $images)->with('species', $species);
+        // Show the view with the images and species
+        return view('admin.animals.animal', compact('animal', 'images_by_animal', 'related'))->with('images', $images)->with('species', $species);
     }
     /**
      * Show the form for editing the specified resource.
@@ -151,16 +149,13 @@ class AnimalController extends Controller
         $animal->load('images');
 
         $images = Image::whereHasMorph('imageable', [$animal->getMorphClass()], function ($query) use ($animal) {
+            //saving the animal id as the imageable_id
             $query->where('imageable_id', $animal->getKey());
         })->get();
 
-        //Returns the edit.blade.php page with an array of teams
-        // $image = $animal->images->first();
         $images_by_animal[$animal->id] = $images;
 
-        // return view('animal-edit', compact('animal', 'image'));
-        //->with('animal', $animal);
-        // return view('animals.animal-edit')->with('animal', $animal)->with('images_by_animal', $images_by_animal);
+      
         return view('admin.animals.animal-edit')->with('animal', $animal)->with('images', $images)->with('species', $species);
     }
 
@@ -191,7 +186,7 @@ class AnimalController extends Controller
             'admin_id' => $user->id,
         ]);
 
-        Log::debug('Update method called for animal ID ' . $animal->id);
+        // Log::debug('Update method called for animal ID ' . $animal->id);
 
 
         if ($request->hasFile('image')) {

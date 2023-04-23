@@ -45,10 +45,6 @@
                             more info.
                         </li>
                     </ul>
-                    {{-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim quam fugiat doloremque! Accusamus
-                        harum,
-                        dolore quia, in molestiae architecto vero aspernatur magni, neque dolorum libero culpa illum unde
-                        voluptate facere.</p> --}}
                 </div>
                 <div class="col-6">
                     <img src="https://i.ytimg.com/vi/-298mHkA7lQ/maxresdefault.jpg" alt="" srcset=""

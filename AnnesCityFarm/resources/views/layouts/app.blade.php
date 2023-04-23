@@ -68,7 +68,7 @@
                     @endif
                 </ul>
                 <!-- Right Side Of Navbar -->
-                <ul class="navbar-nav ms-auto mx-3">
+                <ul class="navbar-nav ms-auto mx-5">
                     <form action="/search" method="GET">
                         @csrf
                         <div class="input-group">

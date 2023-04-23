@@ -2,23 +2,23 @@
 @section('content')
     <div class="container-lg px-5">
         <div class="row shadow-5">
-            <div class="col-4">
+            <div class="col-6">
                 @if (isset($images_by_animal[$animal->id]))
                     @foreach ($images_by_animal[$animal->id] as $index => $image)
                         @if ($loop->first)
                             @if (Str::startsWith($image->type, 'image/'))
                                 <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $image->filename }}"
-                                    class="ecommerce-gallery-main-img active w-100" style="max-width:300px">
+                                    class="ecommerce-gallery-main-img active w-100" class="img-fluid">
                             @else
                                 <img src="{{ $image->filename }}" alt="{{ $image->filename }}"
-                                    class="ecommerce-gallery-main-img active w-100" style="max-width:300px">
+                                    class="ecommerce-gallery-main-img active w-100" class="img-fluid">
                             @endif
                             <h5>{{ $animal->name }}</h5>
                             <p>{{ $animal->age }}</p>
                             <p>{{ $animal->description }}</p>
                             <p>{{ $animal->species->name }}</p>
             </div>
-            <div class="col-8">
+            <div class="col-4">
                 <div class="row">
                 @else
                     <div class="col-6 shadow-1-strong rounded mb-4">
@@ -39,12 +39,14 @@
             </div>
 
         </div>
-        <div class="container">
+        <div class="container-12">
             <div class="row">
                 @foreach ($related as $animal)
                     <div class="col-3">
                         @foreach ($animal->images as $image)
-                            <img class="img-fluid"src=" {{ $image->filename }}">
+                            @if ($loop->index < 1)
+                                <img class="img-fluid"src=" {{ $image->filename }}">
+                            @endif
                         @endforeach
                         <h5>{{ $animal->name }}</h5>
                         <p>{{ $animal->age }}</p>
@@ -65,4 +67,5 @@
             $('.ecommerce-gallery-main-img').attr('src', src);
         });
     </script>
+
 @endsection

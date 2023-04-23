@@ -26,10 +26,12 @@
                 <input type="text" name="phoneNo" id="phoneNo" class="form-control">
             </div>
             <div class="form-group">
-                <label for="days">Availability</label>
+                <label for="days">Availability</label><br>
                 @foreach ($days as $day)
-                    <input type="checkbox" value="{{ $day->id }}" name="days[]">
-                    {{ $day->name }}
+                    <div class="form-check form-check-inline">
+                        <input type="checkbox" value="{{ $day->id }}" name="days[]" class="form-check-input">
+                        <label class="form-check-label">{{ $day->name }}</label>
+                    </div>
                 @endforeach
             </div>
 

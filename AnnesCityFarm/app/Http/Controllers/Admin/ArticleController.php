@@ -25,16 +25,19 @@ class ArticleController extends Controller
      */
     public function index()
     {
+        //Gets only the first 3 articles sorted by date created
         $articles = Article::orderBy('created_at', 'desc')->take(3)->get();
+        //Gets 6 animals with the one to many species
         $animals = Animal::with('images')->with('species')->orderBy('created_at', 'desc')->take(6)->get();
+        //Gets reviews which can be paginated
         $reviews = Review::paginate(3);
-
+        //Only fill array with an animal that has images
         $articles_with_images = $articles->filter(function ($article) {
             return $article->images->count() > 0;
         });
-
+        //Instantiates array
         $images_by_article = [];
-
+        //Loops through all article with images that are morphed to specific article
         foreach ($articles_with_images as $article) {
             $images = Image::whereHasMorph('imageable', [$article->getMorphClass()], function ($query) use ($article) {
                 $query->where('imageable_id', $article->getKey());
@@ -42,13 +45,13 @@ class ArticleController extends Controller
 
             $images_by_article[$article->id] = $images;
         }
-        // dd($animals);
+         //Only fill array with an animal that has images
+
         $animals_with_images = $animals->filter(function ($animal) {
             return $animal->images()->count() > 0;
         });
-        // dd($animals_with_images);
         $images_by_animal = [];
-
+         //Loops through all animal with images that are morphed to specific animal
         foreach ($animals_with_images as $animal) {
             $images = Image::whereHasMorph('imageable', [$animal->getMorphClass()], function ($query) use ($animal) {
                 $query->where('imageable_id', $animal->getKey());
@@ -57,7 +60,7 @@ class ArticleController extends Controller
         }
         // dd($images_by_animal);
 
-        return view('welcome', compact('articles', 'images_by_article', 'animals', 'images_by_animal', 'reviews'));
+        return view('admin.welcome', compact('articles', 'images_by_article', 'animals', 'images_by_animal', 'reviews'));
     }
 
     /**
@@ -148,7 +151,6 @@ class ArticleController extends Controller
 
 
 
-    // $article = Article::where('$articles->id =1');
 
 
     /**
@@ -168,12 +170,8 @@ class ArticleController extends Controller
         })->get();
 
         //Returns the edit.blade.php page with an array of teams
-        // $image = $article->images->first();
         $images_by_article[$article->id] = $images;
-
-        // return view('article-edit', compact('article', 'image'));
-        //->with('article', $article);
-        // return view('articles.article-edit')->with('article', $article)->with('images_by_article', $images_by_article);
+ 
         return view('admin.articles.article-edit')->with('article', $article)->with('images', $images);
     }
 
@@ -203,9 +201,9 @@ class ArticleController extends Controller
             'admin_id' => $user->id,
         ]);
 
-        Log::debug('Update method called for article ID ' . $article->id);
+        // Log::debug('Update method called for article ID ' . $article->id);
 
-
+        //Conditional statement if edited image has image get file  being saved to storage with filename being saved as time and image filename
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
