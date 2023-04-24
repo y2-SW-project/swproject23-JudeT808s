@@ -45,13 +45,17 @@
                     <div class="col-3">
                         @foreach ($animal->images as $image)
                             @if ($loop->index < 1)
-                                <img class="img-fluid"src=" {{ $image->filename }}">
+                                @if (Str::startsWith($image->type, 'image/'))
+                                    <img src="{{ asset('storage/' . $image->path) }}" alt=""
+                                        class="shadow-1-strong rounded mb-4 img-responsive odd-image ">
+                                @else
+                                    <img src="{{ $image->filename }}" alt="{{ $image->filename }}"
+                                        class="shadow-1-strong rounded mb-4 img-responsive odd-image ">
+                                @endif
                             @endif
                         @endforeach
                         <h5>{{ $animal->name }}</h5>
                         <p>{{ $animal->age }}</p>
-                        <p>{{ $animal->description }}</p>
-                        <p>{{ $animal->species->name }}</p>
                         <p>{{ $animal->species->name }}</p>
                     </div>
                 @endforeach

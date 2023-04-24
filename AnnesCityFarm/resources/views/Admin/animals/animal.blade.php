@@ -54,7 +54,13 @@
                     <div class="col-3">
                         @foreach ($animal->images as $image)
                             @if ($loop->index < 1)
-                                <img class="img-fluid"src=" {{ $image->filename }}">
+                                @if (Str::startsWith($image->type, 'image/'))
+                                    <img src="{{ asset('storage/' . $image->path) }}" alt=""
+                                        class="shadow-1-strong rounded mb-4 img-responsive odd-image ">
+                                @else
+                                    <img src="{{ $image->filename }}" alt="{{ $image->filename }}"
+                                        class="shadow-1-strong rounded mb-4 img-responsive odd-image ">
+                                @endif
                             @endif
                         @endforeach
                         <h5>{{ $animal->name }}</h5>
@@ -69,12 +75,11 @@
 
     </div>
 
-
-    <script>
-        $('.ecommerce-gallery-thumbnail').on('click', function() {
-            var src = $(this).data('src');
-            $('.ecommerce-gallery-main-img').attr('src', src);
-        });
-    </script>
-
 @endsection
+
+<script>
+    $('.ecommerce-gallery-thumbnail').on('click', function() {
+        var src = $(this).data('src');
+        $('.ecommerce-gallery-main-img').attr('src', src);
+    });
+</script>

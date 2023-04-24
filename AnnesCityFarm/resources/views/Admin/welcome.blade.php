@@ -1,129 +1,130 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container-fluid mx-5">
-        <div class="row justify-content-center">
-            <div class="row">
-                <div class="col-12">
-                    <!-- Background image start-->
-                    <div class="d-flex justify-content-center align-items-center bg-image"
-                        style="
+    <div id="welcome-container" class="container">
+        <div class="container-fluid mx-5">
+            <div class="row justify-content-center">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Background image start-->
+                        <div class="d-flex justify-content-center align-items-center bg-image"
+                            style="
             background-image: url('https://lh3.googleusercontent.com/p/AF1QipPTBAgz919AqamtfaJW_1b_tIhlZaPvUq7r4eqC=w1080-h608-p-no-v0');
             height: 30vh;
         ">
-                        <div class="mask mask-custom">
-                            <h1 class="text-light fw-bold d-flex justify-content-center mb-5 mt-5 display-emphasis">
-                                St. Anne's City Farm and Ecology Centre
-                            </h1>
-                            <div class="next-line d-flex align-items-center justify-content-center">
-                                <a class="btn btn-secondary text-light d-flex align-items-center justify-content-center"
-                                    style="max-width: 200px" href="">Visit our shop!</a>
+                            <div class="mask mask-custom">
+                                <h1 class="text-light fw-bold d-flex justify-content-center mb-5 mt-5 display-emphasis">
+                                    St. Anne's City Farm and Ecology Centre
+                                </h1>
+                                <div class="next-line d-flex align-items-center justify-content-center">
+                                    <a class="btn btn-secondary text-light d-flex align-items-center justify-content-center"
+                                        style="max-width: 200px" href="">Visit our shop!</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Background image end -->
-        <div class="container-lg">
-            <div class="row justify-content-center">
-                <h3 class="fw-bold">About us</h3>
-                <div class="col-6 d-flex align-items-center display-secondary">
-                    <ul>
-                        <li>
-                            You found us! Welcome to St. Anne's City Farm's Website.
-                        </li>
-                        <li>
-                            Our public opening hours vary from season to season.
-                        </li>
-                        <li>
-                            Please check our social media for daily updates.
-                            Our farm is FREE to visit.You do not need to book a ticket.
-                        </li>
-                        <li>
-                            If you would like to volunteer with us or donate please, Email us at dublincityfarm@gmail.com
-                            for
-                            more info.
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-6">
-                    <img src="https://i.ytimg.com/vi/-298mHkA7lQ/maxresdefault.jpg" alt="" srcset=""
-                        style="width: 700px">
-                </div>
-            </div>
-        </div>
-        <h3 class="text-center mt-3 fw-bold">Updates</h3>
-        <div class="row row-cols-1 row-cols-md-3 g-4 mt-1">
-            @foreach ($articles as $article)
-                <div class="col">
-                    <a href="{{ route('admin.articles.show', ['article' => $article->id]) }}">
-                        <div class="card">
-                            @foreach ($images_by_article[$article->id] as $image)
-                                {{-- <img src="{{ $image->filename }}"class="card-img-top"> --}}
-                                @if (Str::startsWith($image->type, 'image/'))
-                                    <img src="{{ asset('storage/' . $image->path) }}" alt="">
-
-
-                                    {{-- <img src="{{ asset($image->path) }}" alt="{{ $image->filename }}"> --}}
-                                @else
-                                    <img src="{{ $image->filename }}" alt="{{ $image->filename }}">
-                                @endif
-                            @break
-                        @endforeach
-
-
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $article->title }}</h5>
-                            <p class="card-text">{{ $article->subtitle }}</p>
-                            <p class="card-text">{{ date('d/m/Y', strtotime($article->created_at)) }}</p>
-
-                        </div>
+            <!-- Background image end -->
+            <div class="container-lg">
+                <div class="row justify-content-center">
+                    <h3 class="fw-bold">About us</h3>
+                    <div class="col-6 d-flex align-items-center display-secondary">
+                        <ul>
+                            <li>
+                                You found us! Welcome to St. Anne's City Farm's Website.
+                            </li>
+                            <li>
+                                Our public opening hours vary from season to season.
+                            </li>
+                            <li>
+                                Please check our social media for daily updates.
+                                Our farm is FREE to visit.You do not need to book a ticket.
+                            </li>
+                            <li>
+                                If you would like to volunteer with us or donate please, Email us at
+                                dublincityfarm@gmail.com
+                                for
+                                more info.
+                            </li>
+                        </ul>
                     </div>
-                </a>
-
+                    <div class="col-6">
+                        <img src="https://i.ytimg.com/vi/-298mHkA7lQ/maxresdefault.jpg" alt="" srcset=""
+                            style="width: 700px">
+                    </div>
+                </div>
             </div>
-        @endforeach
-    </div>
-    <!-- Gallery -->
-    <div class="container-lg ">
-        <div class="row ">
-            @foreach ($animals as $key => $animal)
-                @if ($loop->odd)
-                    <div class="col-lg-4 col-md-12 mb-4 mb-lg-5 mt-5">
-                        {{-- <div class="img-responsive h-50 w-100"> --}}
-                        <a href="{{ route('admin.animals.show', ['animal' => $animal->id]) }}">
+            <h3 class="text-center mt-3 fw-bold">Updates</h3>
+            <div class="row row-cols-1 row-cols-md-3 g-4 mt-1">
+                @foreach ($articles as $article)
+                    <div class="col">
+                        <a href="{{ route('admin.articles.show', ['article' => $article->id]) }}">
+                            <div class="card">
+                                @foreach ($images_by_article[$article->id] as $image)
+                                    {{-- <img src="{{ $image->filename }}"class="card-img-top"> --}}
+                                    @if (Str::startsWith($image->type, 'image/'))
+                                        <img src="{{ asset('storage/' . $image->path) }}" alt=""
+                                            style="min-height: 150px; max-height: 200px"> {{-- <img src="{{ asset($image->path) }}" alt="{{ $image->filename }}"> --}}
+                                    @else
+                                        <img src="{{ $image->filename }}" alt="{{ $image->filename }}"
+                                            style="min-height: 150px; max-height: 100px">
+                                    @endif
+                                @break
+                            @endforeach
+
+
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $article->title }}</h5>
+                                <p class="card-text">{{ $article->subtitle }}</p>
+                                <p class="card-text">{{ date('d/m/Y', strtotime($article->created_at)) }}</p>
+
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+        <!-- Gallery -->
+        <div class="container-lg ">
+            <h3 class="text-center mt-3 fw-bold">Our Animals</h3>
+            <div class="row ">
+                @foreach ($animals as $key => $animal)
+                    @if ($loop->odd)
+                        <div class="col-lg-4 col-md-12 mb-4 mb-lg-5 mt-5">
+                            {{-- <div class="img-responsive h-50 w-100"> --}}
+                            <a href="{{ route('admin.animals.show', ['animal' => $animal->id]) }}">
+                                @if (isset($images_by_animal[$animal->id]))
+                                    @foreach ($images_by_animal[$animal->id] as $image)
+                                        @if (Str::startsWith($image->type, 'image/'))
+                                            <img src="{{ asset('storage/' . $image->path) }}" alt=""
+                                                class="shadow-1-strong rounded mb-4 img-responsive odd-image ">
+                                        @else
+                                            <img src="{{ $image->filename }}" alt="{{ $image->filename }}"
+                                                class="shadow-1-strong rounded mb-4 img-responsive odd-image ">
+                                        @endif
+                                    @break
+                                @endforeach
+                            @endif
+                        </a>
+                        {{-- </div> --}}
+                @endif
+                @if ($loop->even)
+                    <a href="{{ route('admin.animals.show', ['animal' => $animal->id]) }}">
+                        <div class="img-responsive h-50 w-100">
                             @if (isset($images_by_animal[$animal->id]))
                                 @foreach ($images_by_animal[$animal->id] as $image)
                                     @if (Str::startsWith($image->type, 'image/'))
                                         <img src="{{ asset('storage/' . $image->path) }}" alt=""
-                                            class="shadow-1-strong rounded mb-4 img-responsive odd-image ">
+                                            class="shadow-1-strong rounded mb-4 img-responsive even-image">
                                     @else
                                         <img src="{{ $image->filename }}" alt="{{ $image->filename }}"
-                                            class="shadow-1-strong rounded mb-4 img-responsive odd-image ">
+                                            class="shadow-1-strong rounded mb-4 img-responsive even-image ">
                                     @endif
                                 @break
                             @endforeach
                         @endif
-                    </a>
-                    {{-- </div> --}}
-            @endif
-            @if ($loop->even)
-                <a href="{{ route('admin.animals.show', ['animal' => $animal->id]) }}">
-                    <div class="img-responsive h-50 w-100">
-                        @if (isset($images_by_animal[$animal->id]))
-                            @foreach ($images_by_animal[$animal->id] as $image)
-                                @if (Str::startsWith($image->type, 'image/'))
-                                    <img src="{{ asset('storage/' . $image->path) }}" alt=""
-                                        class="shadow-1-strong rounded mb-4 img-responsive even-image">
-                                @else
-                                    <img src="{{ $image->filename }}" alt="{{ $image->filename }}"
-                                        class="shadow-1-strong rounded mb-4 img-responsive even-image ">
-                                @endif
-                            @break
-                        @endforeach
-                    @endif
-            </a>
-</div>
+                </a>
+    </div>
 </div>
 @endif
 @endforeach
@@ -207,24 +208,28 @@
 <div class="container-lg">
 <div class="row mx-5 mt-3">
 <div class="col-6">
-    <h3>Find us</h3>
+    <h3 class="fw-bold text-center">Find us</h3>
 </div>
 <div class="col-6">
-    <h3 class="text-center">Address</h3>
+    <h3 class="text-center fw-bold">Address</h3>
 </div>
 <div class="col-6 ">
-    <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d353.8323628000281!2d-6.175997650232924!3d53.373843952314395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48670f37483aadd5%3A0x4549ea2f058de263!2sSt.%20Anne&#39;s%20City%20Farm%20and%20Ecology%20Centre!5e0!3m2!1sen!2sie!4v1681648475905!5m2!1sen!2sie"
-        allowfullscreen="" loading="lazy" width="100%" height="100%"
-        referrerpolicy="no-referrer-when-downgrade"></iframe>
-    <p class="text-center">
-        Mon: Closed<br>
-        Tue: Closed<br>
-        Wed: Closed<br>
-        Thu: Closed<br>
-        Fri: Closed<br>
-        Sat: 10:00 AM to 2:00 PM<br>
-        Sun: 10:00 AM to 2:00 PM<br>
+    <div class="row">
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d353.8323628000281!2d-6.175997650232924!3d53.373843952314395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48670f37483aadd5%3A0x4549ea2f058de263!2sSt.%20Anne&#39;s%20City%20Farm%20and%20Ecology%20Centre!5e0!3m2!1sen!2sie!4v1681648475905!5m2!1sen!2sie"
+            allowfullscreen="" loading="lazy" width="100%" height="100%"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="col-12 mb-5">
+            <p class="text-center mb-5">
+                Mon: Closed<br>
+                Tue: Closed<br>
+                Wed: Closed<br>
+                Thu: Closed<br>
+                Fri: Closed<br>
+                Sat: 10:00 AM to 2:00 PM<br>
+                Sun: 10:00 AM to 2:00 PM<br>
+        </div>
+    </div>
 </div>
 <div class="col-6  d-flex align-items-center justify-content-center ">
     <h5>All Saints Rd Clontarf East<br> Dublin 5<br> D05 R8P7
@@ -232,7 +237,8 @@
 </div>
 </div>
 </div>
-
+</div>
+@endsection
 
 <!-- Add this code to handle modal functionality -->
 <script>
@@ -246,4 +252,3 @@
         });
     });
 </script>
-@endsection

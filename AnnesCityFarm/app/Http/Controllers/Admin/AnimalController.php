@@ -85,21 +85,18 @@ class AnimalController extends Controller
         $image = $request->file('image');
         $filename = time() . '.' . $image->getClientOriginalExtension();
         $path = $image->storeAs('images', $filename, 'public');
-        $imageModel = new Image([
+
+        $animal->images()->create([
             'filename' => $filename,
             'type' => $image->getClientMimeType(),
             'path' => $path,
         ]);
-        $imageModel->imageable_type = get_class($animal); // Set the imageable_type to the class name of the morphable model
-        $imageModel->imageable_id = $animal->id; // Set the imageable_id to the id of the morphable model
-        $imageModel->save();
-
         //Sets image to morph to Animal class 
         $images = Image::whereHasMorph('imageable', [$animal->getMorphClass()], function ($query) use ($animal) {
             //saving the animal id as the imageable_id
             $query->where('imageable_id', $animal->getKey());
         })->get();
-        
+
         $images_by_animal[$animal->id] = $images;
         //Redirects to show function passing the new created animal id
         return redirect()->route('admin.animals.show', ['animal' => $animal->id]);
@@ -129,8 +126,6 @@ class AnimalController extends Controller
         })->get();
 
         $images_by_animal[$animal->id] = $images;
-
-
         // Show the view with the images and species
         return view('admin.animals.animal', compact('animal', 'images_by_animal', 'related'))->with('images', $images)->with('species', $species);
     }
@@ -155,7 +150,7 @@ class AnimalController extends Controller
 
         $images_by_animal[$animal->id] = $images;
 
-      
+
         return view('admin.animals.animal-edit')->with('animal', $animal)->with('images', $images)->with('species', $species);
     }
 

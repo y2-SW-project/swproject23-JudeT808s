@@ -27,10 +27,9 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">{{ $article->title }}</h5>
-                    <p class="card-text">{{ $article->subtitle }}</p>
-                </div>
+                <h5 class="card-title">{{ $article->title }}</h5>
+                <p class="card-text">{{ $article->subtitle }}</p>
+                <p class="card-text">{{ $article->publish_date }}</p>
             </div>
             <div class="col-12 col-md-3 mt-3 ">
                 <div class="d-flex justify-content-end">

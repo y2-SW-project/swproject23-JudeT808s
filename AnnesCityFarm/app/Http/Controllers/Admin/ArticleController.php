@@ -45,13 +45,13 @@ class ArticleController extends Controller
 
             $images_by_article[$article->id] = $images;
         }
-         //Only fill array with an animal that has images
+        //Only fill array with an animal that has images
 
         $animals_with_images = $animals->filter(function ($animal) {
             return $animal->images()->count() > 0;
         });
         $images_by_animal = [];
-         //Loops through all animal with images that are morphed to specific animal
+        //Loops through all animal with images that are morphed to specific animal
         foreach ($animals_with_images as $animal) {
             $images = Image::whereHasMorph('imageable', [$animal->getMorphClass()], function ($query) use ($animal) {
                 $query->where('imageable_id', $animal->getKey());
@@ -103,19 +103,19 @@ class ArticleController extends Controller
         $filename = time() . '.' . $image->getClientOriginalExtension();
         $path = $image->storeAs('images', $filename, 'public');
 
-
-
         $article->images()->create([
             'filename' => $filename,
             'type' => $image->getClientMimeType(),
             'path' => $path,
         ]);
+        //Sets image to morph to Animal class 
+
         $images = Image::whereHasMorph('imageable', [$article->getMorphClass()], function ($query) use ($article) {
             $query->where('imageable_id', $article->getKey());
         })->get();
         $images_by_article[$article->id] = $images;
 
-        // Render the view with the images
+        //saving the animal id as the imageable_id
         return view('admin.articles.article', compact('article', 'images_by_article'));
     }
 
@@ -171,7 +171,7 @@ class ArticleController extends Controller
 
         //Returns the edit.blade.php page with an array of teams
         $images_by_article[$article->id] = $images;
- 
+
         return view('admin.articles.article-edit')->with('article', $article)->with('images', $images);
     }
 

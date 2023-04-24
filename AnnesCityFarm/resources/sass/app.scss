@@ -24,7 +24,17 @@ li{
 }
 
 @import 'variables';
-
+.background{
+  height: 100vh; 
+  width: 100vw;
+}
+.gall{
+  
+    max-width: 100%;
+    height: auto;
+  
+  
+}
 .odd-image{
     height :40%;
     width :100%;
@@ -35,8 +45,18 @@ li{
 }
 .mask {
   position: relative;
-}
+  background-color: rgba(0,0,0,0.199);
 
+}
+.footer {
+  // position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+#welcome-container {
+  margin-bottom: 60px; /* set margin to the height of the footer */
+}
 .text-container {
   position: absolute;
   top: 50%;
