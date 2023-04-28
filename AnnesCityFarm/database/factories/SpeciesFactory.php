@@ -6,24 +6,28 @@ namespace Database\Factories;
 
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Collection;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\species>
- */
 class SpeciesFactory extends Factory
 {
-    // protected $model = \App\Models\Species::class;
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = \App\Models\Species::class;
 
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+    public function definition()
     {
+        $names = ['Goat', 'Pig', 'Sheep', 'Pony', 'Donkey', 'Chicken'];
 
         return [
-            'name' =>   $this->faker->name,
+            'name' => Collection::make($names)->random(),
         ];
     }
 }

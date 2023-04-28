@@ -22,11 +22,10 @@ class ArticleFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->name,
-            'subtitle' => $this->faker->name,
+            'title' => $this->faker->text,
+            'subtitle' => $this->faker->text,
             'publish_date' => $this->faker->date,
             'admin_id' => '1',
-            // 'species_id' => Species::factory()
         ];
     }
 }
